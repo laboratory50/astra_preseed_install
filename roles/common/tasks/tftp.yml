@@ -1,0 +1,26 @@
+---
+# install&conf tftp-hpa
+
+    - name: установка tftpd-hpa
+      apt: pkg=tftpd-hpa update_cache=yes state=latest
+        
+    - name: создание каталогов для tftpd-hpa
+      file: path=${path_to_tftp_files}/pxelinux.cfg state=directory owner=tftp group=tftp mode=0755
+    
+    - copy: src=initrd.gz dest=${path_to_tftp_files} owner=tftp group=tftp mode=0644
+    - copy: src=linux dest=${path_to_tftp_files} owner=tftp group=tftp mode=0644
+    - copy: src=pxelinux.0 dest=${path_to_tftp_files} owner=tftp group=tftp mode=0644
+    
+    - name: создание файла c конфигурацией tftpd-hpa
+      template: src=tftp.conf.j2 dest=${path_to_tftp_files}/pxelinux.cfg/default owner=tftp group=tftp mode=0644
+    
+    - name: создание файла автоматической установки для tftpd-hpa
+      template: src=preseed.cfg.j2 dest=${path_to_tftp_files}/preseed.cfg owner=tftp group=tftp mode=0644
+      when: not nodemod_enabled
+      
+    - name: создание файла автоматической установки для tftpd-hpa
+      template: src=preseed.cfg.softraid.j2 dest=${path_to_tftp_files}/preseed.cfg owner=tftp group=tftp mode=0644
+      when: nodemod_enabled  
+      
+    - name: перезапуск службы tftpd-hpa
+      service: name=tftpd-hpa state=restarted

@@ -1,0 +1,4 @@
+dhcp-boot=pxelinux.0,{{ inventory_hostname }},{{ hostvars[inventory_hostname]['ansible_all_ipv4_addresses'][0] }}
+dhcp-range={{ dhcp_subset[0] }},{{ dhcp_subset[1] }},{{ dhcp_subset[2] }},24h
+dhcp-option=3,{{ hostvars[inventory_hostname]['ansible_all_ipv4_addresses'][0] }}
+

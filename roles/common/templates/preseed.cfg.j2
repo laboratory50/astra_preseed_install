@@ -1,0 +1,130 @@
+# настройка языка и страны согласно локали
+d-i debian-installer/language string ru
+d-i debian-installer/country string RU
+d-i debian-installer/locale string ru_RU.UTF-8
+
+# настройка клавиатуры
+d-i keyboard-configuration/xkb-keymap select ru
+d-i console-setup/toggle string Alt+Shift
+d-i languagechooser/language-name-fb select Russian
+d-i countrychooser/country-name select Russia
+d-i keyboard-configuration/toggle select Alt+Shift
+d-i console-setup/fontface select Terminus
+d-i console-setup/ask_detect boolean false
+d-i console-setup/layoutcode string ru
+d-i console-setup/variant Россия   
+
+# настройки сети
+d-i netcfg/choose_interface select auto
+
+# подключение репозиториев
+d-i apt-setup/non-free boolean true
+d-i apt-setup/contrib boolean true
+
+# выключить показ диалога с WEP ключом.
+d-i netcfg/wireless_wep string
+
+# настройка зеркала с пакетами
+d-i mirror/protocol string http
+d-i mirror/country string manual
+d-i mirror/http/hostname string {{ hostvars[inventory_hostname]['ansible_all_ipv4_addresses'][0] }}
+d-i mirror/http/directory string {{ link_to_packages_mirror }}
+d-i mirror/http/proxy string
+
+# задаёт, установлены или нет аппаратные часы по Гринвичу.
+d-i clock-setup/utc boolean true
+
+# настройка timezone
+d-i time/zone string Europe/Moscow
+
+# определяет, нужно ли использовать NTP для установки часов во время установки
+d-i clock-setup/ntp boolean false
+
+# разбиение диска создание разделов
+d-i partman-auto/method string lvm
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-auto/purge_lvm_from_device boolean true
+d-i partman-md/device_remove_md boolean true
+d-i partman-md/confirm_nochanges boolean true
+d-i partman-lvm/confirm boolean true
+d-i partman-auto/choose_recipe select atomic
+d-i partman-md/confirm boolean true
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select Finish partitioning and write changes to disk
+d-i partman/confirm boolean true
+d-i partman-md/confirm_nooverwrite  boolean true
+d-i partman/confirm_nooverwrite boolean true
+
+# устанавливаемый пакет (мета) с образом ядра; можно указать "none",
+# если ядро устанавливать не нужно.
+d-i base-installer/kernel/image string linux-image-generic
+
+d-i passwd/make-user boolean true
+
+# пароль суперпользователя, любой открытым текстом
+d-i passwd/root-password password password
+d-i passwd/root-password-again password password
+
+# создать учётную запись обычного пользователя.
+d-i passwd/user-fullname string user
+d-i passwd/username string user
+
+# пароль обычного пользователя, или открытым текстом
+d-i passwd/user-password password user
+d-i passwd/user-password-again password user
+
+console-setup console-setup/fontface select Terminus
+
+# Вы можете указать нужно ли устанавливать non-free и contrib ПО.
+d-i apt-setup/non-free boolean true
+d-i apt-setup/contrib boolean true
+d-i apt-setup/services-select multi-select
+d-i apt-setup/security_host string
+d-i apt-setup/volatile_host string
+
+# По умолчанию программа установки требует, чтобы репозитории
+# аутентифицировались с помощью известного ключа gpg.
+# Этот параметр выключает данную аутентификацию.
+# Предупреждение: это небезопасно, рекомендуется не делать этого.
+d-i debian-installer/allow_unauthenticated string true
+
+# установка базовой системы + рабочий стол Fly
+tasksel tasksel/first multiselect Base, Fly
+
+# отдельные дополнительные пакеты для установки
+d-i pkgsel/include string openssh-server
+
+# специфичные настройки для Astra Linux
+astra-license astra-license/license boolean true
+krb5-config krb5-config/kerberos_servers string 
+libnss-ldapd libnss-ldapd/ldap-base string 
+libnss-ldapd libnss-ldapd/ldap-uris string
+libnss-ldapd libnss-ldapd/nsswitch multiselect services
+ald-client ald-client/make_config boolean false
+ald-client ald-client/manual_configure note
+# НЕ настраивать киоск
+#astra-feat-setup astra-feat-setup/feat multiselect kiosk mode
+tasksel tasksel/astra-feat-setup multiselect
+
+d-i console-cyrillic/toggle select Caps Lock
+
+# некоторые версии программы установки могут отсылать отчёт
+# об установленных пакетах. По умолчанию данная возможность
+# выключена, но отправка отчёта помогает проекту
+# определить популярность программ и какие из них включать на CD.
+popularity-contest popularity-contest/participate boolean false
+
+# эту переменную можно безопасно устанавливать, она указывает, что grub
+# должен устанавливаться в MBR,
+# если на машине не найдено другой операционной системы.
+d-i grub-installer/only_debian boolean true
+
+# это заставляет grub-installer устанавливать в MBR, даже если на машине
+# есть другая ОС, что менее безопасно, так как может привести к отказу
+# загрузки этой другой ОС.
+d-i grub-installer/with_other_os boolean true
+
+# остановить систему после завершения установки, а
+# не перегружаться в установленную систему.
+d-i debian-installer/exit/halt boolean true
+

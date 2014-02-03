@@ -1,0 +1,7 @@
+DEFAULT {{ os_name }}
+		
+LABEL {{ os_name }}
+	kernel linux
+	append auto=true initrd=initrd.gz dmraid=true debian-installer/language=ru astra-license/license=true hostname=any domain={{ default_domain.upper() }} url=http://{{ hostvars[inventory_hostname]['ansible_all_ipv4_addresses'][0] }}{{ link_to_tftp_files }}/preseed.cfg interface=auto netcfg/dhcp_timeout=60
+		
+TIMEOUT 1

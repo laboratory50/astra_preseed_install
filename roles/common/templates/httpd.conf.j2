@@ -1,0 +1,13 @@
+<Directory {{ path_to_packages_mirror }}>
+Options Indexes FollowSymLinks
+Allowoverride None
+</Directory>
+
+<Directory {{ path_to_tftp_files }}>
+Options Indexes FollowSymLinks
+Allowoverride None
+</Directory>
+		
+Alias {{ link_to_packages_mirror }} "{{ path_to_packages_mirror }}"
+Alias {{ link_to_tftp_files }} "{{ path_to_tftp_files }}"
+

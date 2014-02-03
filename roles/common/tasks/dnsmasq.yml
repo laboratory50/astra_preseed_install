@@ -1,0 +1,16 @@
+---
+# install&conf dnsmasq
+
+    - name: установка dnsmasq
+      apt: pkg=dnsmasq update_cache=yes state=latest
+        
+    - name: корректировка конфигурационных файлов dnsmasq
+      template: src=dnsmasq.conf.j2 dest=/etc/dnsmasq.conf backup=yes owner=dnsmasq mode=0775
+      
+    - name: добавление hostnames целевых машин в /etc/hosts
+      lineinfile: dest=/etc/hosts regexp='.*${item.hostname}' line='${item.ip} ${item.hostname}' state=present
+      with_items: target_machines
+    
+    - name: перезапуск службы dnsmasq
+      service: name=dnsmasq state=restarted
+

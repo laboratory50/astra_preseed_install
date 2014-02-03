@@ -1,0 +1,10 @@
+# common vars
+    nodemod_enabled: False
+    os_name: 'astra'
+    path_to_packages_mirror: '/srv/nfs4/share/se13'
+    link_to_packages_mirror: '/astra'
+    path_to_tftp_files: '/srv/tftp'
+    link_to_tftp_files: '/tftpboot'
+    default_domain: 'hac'
+    dhcp_subset: [192.168.50.1, 192.168.50.2, 255.255.255.0]
+    target_machines: [{ hostname: 'node1', ip: '192.168.50.1' }, { hostname: 'node2', ip: '192.168.50.2' }]
