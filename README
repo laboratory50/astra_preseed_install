@@ -57,3 +57,4 @@ sudo gzip initrd
 В качестве зеркала используется собственный репозиторий пакетов, в котором:
 - добавлен пакет  grub-installer_1.78ubuntu8_amd64.udeb, поскольку grub-installer_1.70astra.se4_amd64.udeb содержит 
   ошибки при установке grub на soft&fake raid.
+
