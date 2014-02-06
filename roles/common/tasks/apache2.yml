@@ -6,22 +6,28 @@
 
     - name: корректировка конфигурационных файлов apache2
       template: src=httpd.conf.j2 dest=/etc/apache2/httpd.conf owner=www-data group=www-data mode=0775
-      
+
     - name: создание ссылки на каталог с tftp файлами
-      file: src=${path_to_tftp_files} dest=/var/www${link_to_tftp_files} 
+      file: src=${path_to_tftp_files} dest=/var/www${link_to_tftp_files}
             owner=www-data group=www-data mode=0775 state=link force=true
-      
+
     - name: создание ссылок на зеркало
-      file: src=${path_to_packages_mirror} dest=/var/www${link_to_packages_mirror} 
-            owner=www-data group=www-data mode=0775 state=link force=true  
-      
+      file: src=${path_to_packages_mirror} dest=/var/www${link_to_packages_mirror}
+            owner=www-data group=www-data mode=0775 state=link force=true
+
     - name: корректировка vhosts.conf
       lineinfile:
-        dest=/etc/apache2/conf.d/vhosts.conf 
+        dest=/etc/apache2/conf.d/vhosts.conf
         state=present
         regexp=$inventory_hostname
         line="ServerName $inventory_hostname"
         owner=www-data group=www-data mode=0775
-        
+
     - name: перезапуск службы apache2
       service: name=apache2 state=restarted
+
+    - name: перезапуск службы tftpd-hpa
+      service: name=tftpd-hpa state=restarted
+
+    - name: перезапуск службы dnsmasq
+      service: name=dnsmasq state=restarted

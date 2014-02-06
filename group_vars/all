@@ -1,10 +1,24 @@
-# common vars
+# переменные для настройки сервера автоматической инсталляции ОС
+
+    # Если nodemod_enabled равно False в tftp сервере будет preseed файл для стандартной установки, если True, то
+    # будет специальный preseed файл для установки softraid.
     nodemod_enabled: False
+
+    # Имя цели используемое tftp
     os_name: 'astra'
+
+    # Полную путь к репозиторию пакетов(!репозиторий создается самостоятельно, простейший случай просто путь к подмонтированному cd диску!)
     path_to_packages_mirror: '/srv/nfs4/share/se13'
     link_to_packages_mirror: '/astra'
     path_to_tftp_files: '/srv/tftp'
     link_to_tftp_files: '/tftpboot'
+
+    # Имя домена
     default_domain: 'hac'
+
+    # Диапазон ip для dhcp сервера
     dhcp_subset: [192.168.50.1, 192.168.50.2, 255.255.255.0]
+
+    # Список для автоназначения hostname, для добавления новой машины, через запятую
+    # пишем { hostname: 'Имя машины(доступны след. символы 'a-zA-Z0-9' и знак '-')', ip: 'ip адрес из диапазона указанного в dhcp_subset' }
     target_machines: [{ hostname: 'node1', ip: '192.168.50.1' }, { hostname: 'node2', ip: '192.168.50.2' }]

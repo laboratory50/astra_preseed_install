@@ -1,14 +1,30 @@
 Copyright (c) 2013 Severnoe DB JSC December 2013
 
-preseed_install это ansible скрипт для установки необходимых пакетов и их настройки на хост-машине, 
-которая должна стать сервером для установки ОС на целевых машинах (узлах) по сети.
+preseed_install это ansible скрипт для установки необходимых пакетов и их настройки на хост-машине,
+которая должна стать сервером для установки ОС Astra Linux Special Edition на целевых машинах(узлах) по сети.
 
 Используются следующие пакеты:
 - dnsmasq (TODO попробывать встроенный в dnsmasq tftp)
 - tftpd-hpa
 - apache
 
-Данная конфигурация настроена на установку по сети ОС Astra Linux Special Edition. 
+============= Запуск ============
+Ставим пакет ansible -> # aptitude install ansible
+
+Затем:
+0. Запуск ansible-playbook -i <файл с описание хостов> <yml-файл c playbook>
+1. Для запуска playbook на локальном хосте
+добавляем строчку "connection: local" после:
+- hosts: компьютер1
+  user: root
+  <cюда>
+2. Для использования sudo добавляем по строку "sudo: True"
+   по аналогии с п.1, не забываем при запуске (см. п.0) добавлять --ask-sudo-pass
+   при этом строчку user:... комментируем.
+
+========== Подробности ==========
+
+Данная конфигурация настроена на установку по сети ОС Astra Linux Special Edition.
 Для этого доработан инсталлятор (по отношению к netinst c оригинального диска с ОС Astra Linux 1.3):
 - изменен usr/share/localechooser/languagelist поддержка русскому языку изменена с 2 на 1.
   было ru;2;RU;ru_RU.UTF-8;;console-setup стало ru;1;RU;ru_RU.UTF-8;;console-setup
@@ -55,6 +71,6 @@ sudo gzip initrd
 ****************
 
 В качестве зеркала используется собственный репозиторий пакетов, в котором:
-- добавлен пакет  grub-installer_1.78ubuntu8_amd64.udeb, поскольку grub-installer_1.70astra.se4_amd64.udeb содержит 
+- добавлен пакет  grub-installer_1.78ubuntu8_amd64.udeb, поскольку grub-installer_1.70astra.se4_amd64.udeb содержит
   ошибки при установке grub на soft&fake raid.
 
