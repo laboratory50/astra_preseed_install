@@ -2,7 +2,7 @@
 # install&conf apache2
 
     - name: установка apache2
-      apt: pkg=apache2 update_cache=yes state=latest
+      apt: pkg=apache2 state=latest
 
     - name: корректировка конфигурационных файлов apache2
       template: src=httpd.conf.j2 dest=/etc/apache2/httpd.conf owner=www-data group=www-data mode=0775

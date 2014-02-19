@@ -5,5 +5,10 @@
 #  user: root
   connection: local
   sudo: True
+
+  pre_tasks:
+   - name: обновление списка пакетов
+     apt: update_cache=yes
+
   roles:
    - common

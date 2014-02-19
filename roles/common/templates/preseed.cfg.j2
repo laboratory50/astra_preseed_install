@@ -27,7 +27,7 @@ d-i netcfg/wireless_wep string
 # настройка зеркала с пакетами
 d-i mirror/protocol string http
 d-i mirror/country string manual
-d-i mirror/http/hostname string {{ hostvars[inventory_hostname]['ansible_all_ipv4_addresses'][0] }}
+d-i mirror/http/hostname string {{ hostvars[inventory_hostname].ansible_eth0.ipv4.address }}
 d-i mirror/http/directory string {{ link_to_packages_mirror }}
 d-i mirror/http/proxy string
 

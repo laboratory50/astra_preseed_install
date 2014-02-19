@@ -2,7 +2,7 @@
 # install&conf tftp-hpa
 
     - name: установка tftpd-hpa
-      apt: pkg=tftpd-hpa update_cache=yes state=latest
+      apt: pkg=tftpd-hpa state=latest
         
     - name: создание каталогов для tftpd-hpa
       file: path={{ path_to_tftp_files }}/pxelinux.cfg state=directory owner=tftp group=tftp mode=0755
@@ -10,7 +10,10 @@
     - copy: src=initrd.gz dest={{ path_to_tftp_files }} owner=tftp group=tftp mode=0644
     - copy: src=linux dest={{ path_to_tftp_files }} owner=tftp group=tftp mode=0644
     - copy: src=pxelinux.0 dest={{ path_to_tftp_files }} owner=tftp group=tftp mode=0644
-    
+
+    - name: создание файла c конфигурацией демона tftpd-hpa
+      template: src=tftpd-hpa.j2 dest=/etc/default/tftpd-hpa owner=root group=root mode=0644
+
     - name: создание файла c конфигурацией tftpd-hpa
       template: src=tftp.conf.j2 dest={{ path_to_tftp_files }}/pxelinux.cfg/default owner=tftp group=tftp mode=0644
     
