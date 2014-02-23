@@ -13,7 +13,5 @@
 
     - name: очистка dhcp.leases
       command: rm /var/lib/misc/dnsmasq.leases
-
-    - name: перезапуск службы dnsmasq
-      service: name=dnsmasq state=restarted
+      tags: remove_dhcp_leases
 

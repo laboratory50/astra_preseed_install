@@ -19,6 +19,4 @@
     
     - name: создание файла автоматической установки для tftpd-hpa
       template: src={{ preseed_file_template }} dest={{ path_to_tftp_files }}/preseed.cfg owner=tftp group=tftp mode=0644
-      
-    - name: перезапуск службы tftpd-hpa
-      service: name=tftpd-hpa state=restarted
+

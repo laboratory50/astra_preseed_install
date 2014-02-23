@@ -23,11 +23,3 @@
         line="ServerName $inventory_hostname"
         owner=www-data group=www-data mode=0775
 
-    - name: перезапуск службы apache2
-      service: name=apache2 state=restarted
-
-    - name: перезапуск службы tftpd-hpa
-      service: name=tftpd-hpa state=restarted
-
-    - name: перезапуск службы dnsmasq
-      service: name=dnsmasq state=restarted

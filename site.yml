@@ -12,3 +12,16 @@
 
   roles:
    - common
+
+  post_tasks:
+   - name: перезапуск службы apache2
+     service: name=apache2 state=restarted
+     tags: remove_dhcp_leases
+
+   - name: перезапуск службы tftpd-hpa
+     service: name=tftpd-hpa state=restarted
+     tags: remove_dhcp_leases
+
+   - name: перезапуск службы dnsmasq
+     service: name=dnsmasq state=restarted
+     tags: remove_dhcp_leases

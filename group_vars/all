@@ -17,9 +17,10 @@
     default_domain: 'hac'
 
     # Диапазон ip для dhcp сервера
-    dhcp_subset: [172.16.0.20, 172.16.0.22, 255.255.255.0]
+    dhcp_subset: [172.16.0.23, 172.16.0.23, 255.255.255.0]
 
     # Список для автоназначения hostname, для добавления новой машины, через запятую
     # пишем { hostname: 'Имя машины(доступны след. символы 'a-zA-Z0-9' и знак '-')', ip: 'ip адрес из диапазона указанного в dhcp_subset' }
-    target_machines: [{ hostname: 'hacnode1', ip: '172.16.0.20' }, { hostname: 'hacnode2', ip: '172.16.0.21' },  { hostname: 'hacnode3', ip: '172.16.0.22' }]
+    target_machines: [{ hostname: 'hacnode4', ip: '172.16.0.23' }]
+    #, { hostname: 'hacnode2', ip: '172.16.0.21' },  { hostname: 'hacnode3', ip: '172.16.0.22' }]
 
