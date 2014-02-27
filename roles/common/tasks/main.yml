@@ -1,7 +1,6 @@
 ---
 # main playbook
-
+    - include: dnsmasq.yml
     - include: tftp.yml
-    - include: dnsmasq.yml  
     - include: apache2.yml
 

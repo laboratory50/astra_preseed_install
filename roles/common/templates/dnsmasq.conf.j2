@@ -1,4 +1,7 @@
-dhcp-boot=pxelinux.0,{{ inventory_hostname }},{{ hostvars[inventory_hostname].ansible_eth0.ipv4.address }}
+interface=eth0
 dhcp-range={{ dhcp_subset[0] }},{{ dhcp_subset[1] }},{{ dhcp_subset[2] }},24h
 dhcp-option=3,{{ hostvars[inventory_hostname].ansible_eth0.ipv4.address }}
+enable-tftp
+tftp-root={{ path_to_tftp_files }}
+dhcp-boot=pxelinux.0
 

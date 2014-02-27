@@ -1,0 +1,20 @@
+---
+# Uninstall server for preseed install OS
+
+- hosts: inst_servers
+  user: artem
+#  connection: local
+  sudo: True
+  vars_files: ['group_vars/all']
+
+  tasks:
+    - name: удаление пакетов
+      apt: pkg={{ item }} state=absent purge=yes
+      with_items: [apache2, tftp-hpa, dnsmasq]
+
+    - name: удаление ссылок на tftp
+      file: path={{ link_to_tftp_files }} state=absent
+
+    - name: удаление каталога tftp
+      file: path={{ path_to_tftp_files }} state=absent
+

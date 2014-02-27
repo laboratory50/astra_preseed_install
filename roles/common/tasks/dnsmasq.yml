@@ -14,4 +14,4 @@
     - name: очистка dhcp.leases
       command: rm /var/lib/misc/dnsmasq.leases
       tags: remove_dhcp_leases
-
+      ignore_errors: True
