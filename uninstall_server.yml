@@ -2,9 +2,9 @@
 # Uninstall server for preseed install OS
 
 - hosts: inst_servers
-  user: artem
+  user: root
 #  connection: local
-  sudo: True
+#  sudo: True
   vars_files: ['group_vars/all']
 
   tasks:
