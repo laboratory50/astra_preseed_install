@@ -10,6 +10,7 @@
     - name: добавление hostnames целевых машин в /etc/hosts
       lineinfile: dest=/etc/hosts regexp='.*{{ item.ip }}' line='{{ item.ip }} {{ item.hostname }}' state=present
       with_items: target_machines
+      when: target_machines is defined
 
     - name: очистка dhcp.leases
       command: rm /var/lib/misc/dnsmasq.leases

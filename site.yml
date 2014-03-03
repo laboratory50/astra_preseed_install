@@ -2,8 +2,8 @@
 # The main playbook to set up installation server
 
 - hosts: inst_servers
-  user: artem
-#  connection: local
+#  user: root
+  connection: local
   sudo: True
 
   pre_tasks:
@@ -17,10 +17,6 @@
    - name: перезапуск службы apache2
      service: name=apache2 state=restarted
      tags: remove_dhcp_leases
-
-#   - name: перезапуск службы tftpd-hpa
-#     service: name=tftpd-hpa state=restarted
-#     tags: remove_dhcp_leases
 
    - name: перезапуск службы dnsmasq
      service: name=dnsmasq state=restarted

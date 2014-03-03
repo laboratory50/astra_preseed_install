@@ -69,7 +69,7 @@ d-i     partman-auto/expert_recipe string        \
                 method{ swap }                   \
                 format{ }                        \
              .                                   \
-             500000 30 500000 ext4               \
+             409600 30 409600 ext4               \
                 $defaultignore{ }                \
                 $lvmok{ }                        \
                 lv_name{ lv_gluster }            \
@@ -127,7 +127,7 @@ d-i debian-installer/allow_unauthenticated string true
 tasksel tasksel/first multiselect Base, Fly
 
 # отдельные дополнительные пакеты для установки
-d-i pkgsel/include string openssh-server
+d-i pkgsel/include string openssh-server ethtool
 
 # специфичные настройки для Astra Linux
 astra-license astra-license/license boolean true

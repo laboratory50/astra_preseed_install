@@ -2,7 +2,7 @@
 
     # Указываем имя необходимого шаблона (preseed file) для автоматической установки linux, если нужен другой шаблон, то его можно
     # создать по аналогии c шаблонами расположенными в roles/common/templates
-    default_preseed: 'preseed.cfg.softraid.j2'
+    default_preseed: 'preseed.cfg.raid.j2'
 
     # Имя цели используемое tftp
     os_name: 'astra'
@@ -17,9 +17,9 @@
     default_domain: 'hac'
 
     # Диапазон ip для dhcp сервера
-    dhcp_subset: [192.168.50.49, 192.168.50.51, 255.255.255.0]
+    dhcp_subset: [172.16.0.90, 172.16.0.125, 255.255.255.0]
 
     # Список для автоназначения hostname, для добавления новой машины, через запятую
     # пишем { hostname: 'Имя машины(доступны след. символы 'a-zA-Z0-9' и знак '-')', ip: 'ip адрес из диапазона указанного в dhcp_subset' }
-    target_machines: [{ hostname: 'hacnode4', ip: '192.168.50.49' }, { hostname: 'hacnode2', ip: '192.168.50.50' },  { hostname: 'hacnode3', ip: '192.168.50.51' }]
+    ## target_machines: [{ hostname: 'any', ip: '172.168.50.49' }, { hostname: 'hacnode2', ip: '192.168.50.50' },  { hostname: 'hacnode3', ip: '192.168.50.51' }]
 
