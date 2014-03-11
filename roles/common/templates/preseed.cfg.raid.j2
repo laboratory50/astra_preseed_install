@@ -47,9 +47,9 @@ d-i     partman-lvm/device_remove_lvm boolean true
 d-i     partman-auto/purge_lvm_from_device boolean true
 d-i     partman-lvm/confirm boolean true
 d-i     partman-auto/choose_recipe select cluster
-d-i     partman-auto-lvm/no_boot boolean true
 d-i     partman-auto-lvm/new_vg_name string vgcluster
 d-i     partman-auto-lvm/guided_size string 100%
+d-i     partman-auto-lvm/no_boot boolean true
 d-i     partman-auto/expert_recipe string        \
            cluster ::                            \
              62000 10 62000 ext4                 \
@@ -89,6 +89,7 @@ d-i     partman-partitioning/confirm_write_new_label boolean true
 d-i     partman/choose_partition select Finish partitioning and write changes to disk
 d-i     partman/confirm boolean true
 d-i     partman/confirm_nooverwrite boolean true
+d-i     partman-auto-lvm/no_boot boolean true
 
 # устанавливаемый пакет (мета) с образом ядра; можно указать "none",
 # если ядро устанавливать не нужно.
