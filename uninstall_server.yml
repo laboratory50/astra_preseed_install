@@ -2,9 +2,9 @@
 # Uninstall server for preseed install OS
 
 - hosts: inst_servers
-  user: root
-#  connection: local
-#  sudo: True
+#  user: root
+  connection: local
+  sudo: True
   vars_files: ['group_vars/all']
 
   tasks:
@@ -13,7 +13,8 @@
       with_items: [apache2, tftp-hpa, dnsmasq]
 
     - name: удаление ссылок на tftp
-      file: path={{ link_to_tftp_files }} state=absent
+      file: path={{ item }} state=absent
+      with_items: [ $link_to_packages_mirror, $link_to_tftp_files]
 
     - name: удаление каталога tftp
       file: path={{ path_to_tftp_files }} state=absent

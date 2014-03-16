@@ -1,11 +1,10 @@
-Copyright (c) 2013 Severnoe DB JSC December 2013
+Copyright (c) 2013-2014 Severnoe DB JSC
 
 preseed_install это ansible скрипт для установки необходимых пакетов и их настройки на хост-машине,
 которая должна стать сервером для установки ОС Astra Linux Special Edition на целевых машинах(узлах) по сети.
 
 Используются следующие пакеты:
-- dnsmasq (TODO попробывать встроенный в dnsmasq tftp)
-- tftpd-hpa
+- dnsmasq
 - apache
 
 ============= Запуск ============
