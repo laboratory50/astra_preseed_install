@@ -13,6 +13,5 @@
       when: target_machines is defined
 
     - name: очистка dhcp.leases
-      command: rm /var/lib/misc/dnsmasq.leases
-      tags: remove_dhcp_leases
-      ignore_errors: True
+      file: path=/var/lib/misc/dnsmasq.leases state=absent
+      tags: [remove_dhcp_leases]

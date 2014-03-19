@@ -1,2 +1,6 @@
 default_preseed_filename: "{{ default_preseed|replace('.j2','') }}"
 
+# variable for using into tft.conf.j2
+# available values: ethX or auto
+eth_interface: 'eth0'
+
