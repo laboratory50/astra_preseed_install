@@ -1,5 +1,5 @@
 ---
-# install&conf files for tftp
+# configuration files for tftp
 
     - name: создание каталогов для tftp
       file: path={{ path_to_tftp_files }}/pxelinux.cfg state=directory owner=dnsmasq mode=0755
@@ -9,7 +9,21 @@
     - copy: src=pxelinux.0 dest={{ path_to_tftp_files }} owner=dnsmasq mode=0644
 
     - name: создание файла c конфигурацией tftp
-      template: src=tftp.conf.j2 dest={{ path_to_tftp_files }}/pxelinux.cfg/default owner=dnsmasq mode=0644
+      template: src=tftp.mac.conf.j2 dest={{ path_to_tftp_files }}/pxelinux.cfg/default owner=dnsmasq mode=0644
 
     - name: создание файла автоматической установки для tftp
-      template: src={{ default_preseed }} dest={{ path_to_tftp_files }}/preseed.cfg owner=dnsmasq mode=0644
+      template: src={{ default_preseed }} dest={{ path_to_tftp_files }}/{{ default_preseed_filename }} owner=dnsmasq mode=0644
+
+    - name: создание файлов конфигурации tftp по mac адресам  
+      template: src=tftp.mac.conf.j2 dest={{ path_to_tftp_files }}/pxelinux.cfg/01-{{ item.mac }} owner=dnsmasq mode=0644
+      with_items: machines_by_mac
+      when: machines_by_mac is defined
+
+    - name: создание специальных preseed файлов по mac адресам
+      template: src={{ item.preseed|default('${default_preseed}') }}
+                dest={{ path_to_tftp_files }}/{{ item.preseed|default('${default_preseed_filename}')|replace('.j2','') }} 
+                owner=dnsmasq
+                mode=0644
+      with_items: machines_by_mac
+      when: machines_by_mac is defined
+

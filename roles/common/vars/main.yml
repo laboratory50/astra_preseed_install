@@ -1,0 +1,2 @@
+default_preseed_filename: "{{ default_preseed|replace('.j2','') }}"
+

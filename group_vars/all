@@ -2,7 +2,7 @@
 
     # Указываем имя необходимого шаблона (preseed file) для автоматической установки linux, если нужен другой шаблон, то его можно
     # создать по аналогии c шаблонами расположенными в roles/common/templates
-    default_preseed: 'preseed.cfg.raid.j2'
+    default_preseed: 'preseed.softraid.cfg.j2'
 
     # Имя цели используемое tftp
     os_name: 'astra'
@@ -24,7 +24,15 @@
     ## target_machines: [{ hostname: 'hacnode1', ip: '172.16.0.50' },  { hostname: 'hacnode2', ip: '172.16.0.51' }]
 
 # В случае если Вам необходимо назначить определенный hostname на определенную машину, НЕ используйте вариант задания
-# через переменную target_machines, вместо этого после выполнения данного скрипта, на базе файла default из директория
-# {{ path_to_tftp_files }}/pxelinux.cfg/default необходимо создать файлы с именем содержащим mac-адресами (формат 01-xx-xx-xx-xx-xx-xx)
-# устанавливая внутри нужный hostname=<нужный hosname>.
+# через переменную target_machines, вместо этого заполняйте переменную machines_by_mac. В ней обязательно определяйте mac и
+# желаемый для данного mac'а hostname, можно еще также указывать специальный preseed (если не указать будет использован preseed файл по-умолчанию
+# из переменной default_preseed). Все preseed складываем в roles/common/templates.
+
+    machines_by_mac:
+        - { mac: '00-25-90-cb-03-2b', hostname: 'hacnode1' }
+        - { mac: '00-25-90-cb-03-2a', hostname: 'hacnode1' }
+        - { mac: '00-25-90-c9-a3-fc', hostname: 'hacnode2' }
+        - { mac: '00-25-90-c9-a3-fd', hostname: 'hacnode2' }
+        - { mac: '00-25-90-c7-72-b4', hostname: 'hacnode3' }
+        - { mac: '00-25-90-c7-72-b5', hostname: 'hacnode3', preseed: 'preseed.softraid.cfg.j2' }
 
