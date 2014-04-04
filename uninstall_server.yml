@@ -10,7 +10,7 @@
   tasks:
     - name: удаление пакетов
       apt: pkg={{ item }} state=absent purge=yes
-      with_items: [apache2, tftp-hpa, dnsmasq]
+      with_items: [apache2, tftpd-hpa, tftp-hpa, dnsmasq, vsftpd]
 
     - name: удаление ссылок на tftp
       file: path={{ item }} state=absent
