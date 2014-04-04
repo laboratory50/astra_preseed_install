@@ -2,6 +2,7 @@ interface=eth0
 dhcp-range={{ dhcp_subset[0] }},{{ dhcp_subset[1] }},{{ dhcp_subset[2] }},24h
 dhcp-option=3,{{ hostvars[inventory_hostname].ansible_eth0.ipv4.address }}
 enable-tftp
-tftp-root={{ path_to_tftp_files }}
+tftp-root={%if server_type=='http' %}{{ http.path_to_tftp_files }}{% else %}{{ ftp.path_to_ftp_root }}/{{ link_to_tftp_files }}{% endif %}
+
 dhcp-boot=pxelinux.0
 

@@ -25,10 +25,11 @@ d-i apt-setup/contrib boolean true
 d-i netcfg/wireless_wep string
 
 # настройка зеркала с пакетами
-d-i mirror/protocol string http
+d-i mirror/protocol string {{ server_type }}
 d-i mirror/country string manual
 d-i mirror/http/hostname string {{ hostvars[inventory_hostname].ansible_eth0.ipv4.address }}
-d-i mirror/http/directory string {{ link_to_packages_mirror }}
+d-i mirror/http/directory string {% if server_type == 'http' %}/{{ http.link_to_packages_mirror }}{% else %}/ {{ ftp.astra_rep_name }}{% endif %}
+
 d-i mirror/http/proxy string
 
 # задаёт, установлены или нет аппаратные часы по Гринвичу.

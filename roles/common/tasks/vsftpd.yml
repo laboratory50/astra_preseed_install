@@ -1,0 +1,18 @@
+#
+# © ОАО «Северное ПКБ», 2014
+#
+---
+    - name: установка пакета vsftpd
+      apt: pkg=vsftpd state=latest force=yes
+
+    - name: создание корневой папки для vsftpd
+      file: path={{ ftp.path_to_ftp_root }} mode=755 state=directory
+
+    - name: изменение домашнего директория системного пользователя ftp
+      command: usermod -d {{ ftp.path_to_ftp_root }} ftp
+
+    - name: создание файла конфигурации для vsftpd
+      template: src=vsftpd.conf.j2 dest=/etc/vsftpd.conf
+
+    - name: перезапуск vsftpd
+      service: name=vsftpd state=restarted enabled=yes

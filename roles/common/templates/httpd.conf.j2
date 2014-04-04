@@ -1,4 +1,4 @@
-<Directory {{ path_to_packages_mirror }}>
+<Directory {{ http.path_to_packages_mirror }}>
 Options Indexes FollowSymLinks
 Allowoverride None
 </Directory>
@@ -8,6 +8,6 @@ Options Indexes FollowSymLinks
 Allowoverride None
 </Directory>
 		
-Alias {{ link_to_packages_mirror }} "{{ path_to_packages_mirror }}"
-Alias {{ link_to_tftp_files }} "{{ path_to_tftp_files }}"
+Alias /{{ http.link_to_packages_mirror }} "{{ http.path_to_packages_mirror }}"
+Alias /{{ link_to_tftp_files }} "{{ path_to_tftp_files }}"
 

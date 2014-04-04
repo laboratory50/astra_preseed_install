@@ -2,26 +2,26 @@
 # configuration files for tftp
 
     - name: создание каталогов для tftp
-      file: path={{ path_to_tftp_files }}/pxelinux.cfg state=directory owner=dnsmasq mode=0755
+      file: path={{ tftp_path }}/pxelinux.cfg state=directory owner=dnsmasq mode=0755
 
-    - copy: src=initrd.gz dest={{ path_to_tftp_files }} owner=dnsmasq mode=0644
-    - copy: src=linux dest={{ path_to_tftp_files }} owner=dnsmasq mode=0644
-    - copy: src=pxelinux.0 dest={{ path_to_tftp_files }} owner=dnsmasq mode=0644
+    - copy: src=initrd.gz dest={{ tftp_path }} owner=dnsmasq mode=0644
+    - copy: src=linux dest={{ tftp_path }} owner=dnsmasq mode=0644
+    - copy: src=pxelinux.0 dest={{ tftp_path }} owner=dnsmasq mode=0644
 
     - name: создание файла c конфигурацией tftp
-      template: src=tftp.conf.j2 dest={{ path_to_tftp_files }}/pxelinux.cfg/default owner=dnsmasq mode=0644
+      template: src=tftp.conf.j2 dest={{ tftp_path }}/pxelinux.cfg/default owner=dnsmasq mode=0644
 
     - name: создание файла автоматической установки для tftp
-      template: src={{ default_preseed }} dest={{ path_to_tftp_files }}/{{ default_preseed_filename }} owner=dnsmasq mode=0644
+      template: src={{ default_preseed }} dest={{ tftp_path }}/{{ default_preseed_filename }} owner=dnsmasq mode=0644
 
     - name: создание файлов конфигурации tftp по mac адресам
-      template: src=tftp.conf.j2 dest={{ path_to_tftp_files }}/pxelinux.cfg/01-{{ item.mac }} owner=dnsmasq mode=0644
+      template: src=tftp.conf.j2 dest={{ tftp_path }}/pxelinux.cfg/01-{{ item.mac }} owner=dnsmasq mode=0644
       with_items: machines_by_mac
       when: machines_by_mac is defined
 
     - name: создание preseed файлов по mac адресам
       template: src={{ item.preseed|default('${default_preseed}') }}
-                dest={{ path_to_tftp_files }}/{{ item.preseed|default('${default_preseed_filename}')|replace('.j2','') }}
+                dest={{ tftp_path }}/{{ item.preseed|default('${default_preseed_filename}')|replace('.j2','') }}
                 owner=dnsmasq
                 mode=0644
       with_items: machines_by_mac

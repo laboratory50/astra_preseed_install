@@ -1,0 +1,40 @@
+#
+# © ОАО «Северное ПКБ», 2014
+#
+---
+    - name: удаление файлов репозитория Astra Linux
+      command: rm -rf {{ ftp.path_to_ftp_root }}/{{ ftp.astra_rep_name }}
+               removes={{ ftp.path_to_ftp_root }}/{{ ftp.astra_rep_name }}
+      when: ftp.astra_rep_name is defined and ftp.src_with_astra_rep is defined
+      tags: astra_rep
+      
+    - name: удаление файлов репозитория Astra Linux
+      command: mkdir {{ ftp.path_to_ftp_root }}/{{ ftp.astra_rep_name }}
+      when: ftp.astra_rep_name is defined and ftp.src_with_astra_rep is defined
+      tags: astra_rep
+
+    - name: удаление файлов репозитория ПК КВГ
+      command: rm -rf {{ ftp.path_to_ftp_root }}/{{ ftp.hac_rep_name }}
+               removes={{ ftp.path_to_ftp_root }}/{{ ftp.hac_rep_name }}
+      when: ftp.hac_rep_name is defined and ftp.src_with_hac_rep is defined
+      tags: hac_rep
+      
+    - name: удаление файлов репозитория ПК КВГ
+      command: mkdir {{ ftp.path_to_ftp_root }}/{{ ftp.hac_rep_name }}
+      when: ftp.hac_rep_name is defined and ftp.src_with_hac_rep is defined
+      tags: hac_rep
+
+    - name: копирование файлов репозитория Astra Linux
+      shell: cp -pfR {{ ftp.src_with_astra_rep }}/dists/ {{ ftp.path_to_ftp_root }}/{{ ftp.astra_rep_name }}/
+      when: ftp.astra_rep_name is defined and ftp.src_with_astra_rep is defined
+      tags: astra_rep
+
+    - command: cp -pfR {{ ftp.src_with_astra_rep }}/pool/ {{ ftp.path_to_ftp_root }}/{{ ftp.astra_rep_name }}/
+      when: ftp.astra_rep_name is defined and ftp.src_with_astra_rep is defined
+      tags: astra_rep
+               
+    - name: копирование файлов репозитория ПК КВГ
+      command: cp -pfR {{ ftp.src_with_hac_rep }}/ {{ ftp.path_to_ftp_root }}/{{ ftp.hac_rep_name }}
+      when: ftp.hac_rep_name is defined and ftp.src_with_hac_rep is defined
+      tags: hac_rep
+

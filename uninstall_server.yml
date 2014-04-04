@@ -1,5 +1,5 @@
 ---
-# Uninstall server for preseed install OS
+# uninstall server for preseed install OS
 
 - hosts: inst_servers
 #  user: root
@@ -14,7 +14,7 @@
 
     - name: удаление ссылок на tftp
       file: path={{ item }} state=absent
-      with_items: [ $link_to_packages_mirror, $link_to_tftp_files]
+      with_items: [ $http.link_to_packages_mirror, $http.link_to_tftp_files]
 
     - name: удаление каталога tftp
       file: path={{ path_to_tftp_files }} state=absent

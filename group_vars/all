@@ -1,38 +1,59 @@
 # переменные для настройки сервера автоматической инсталляции ОС
 
-    # Указываем имя необходимого шаблона (preseed file) для автоматической установки linux, если нужен другой шаблон, то его можно
-    # создать по аналогии c шаблонами расположенными в roles/common/templates
-    default_preseed: 'preseed.softraid.cfg.j2'
+# Доступные опции 'http' or 'ftp'
+server_type: 'ftp'
 
-    # Имя цели используемое tftp
-    os_name: 'astra'
+# Указываем имя необходимого шаблона (preseed file) для автоматической установки linux,
+# если нужен другой шаблон, то его можно
+# создать по аналогии c шаблонами расположенными в roles/common/templates
+default_preseed: 'preseed.softraid.cfg.j2'
 
-    # Полную путь к репозиторию пакетов(!репозиторий создается самостоятельно, простейший случай просто путь к подмонтированному cd диску!)
+# Имя цели используемое tftp
+os_name: 'astra'
+# Имя домена
+default_domain: 'hac'
+
+# путь к файлам tftp
+link_to_tftp_files: 'tftpboot'
+    
+# Полную путь к репозиторию пакетов
+#(!репозиторий создается самостоятельно, простейший случай просто путь к подмонтированному cd диску!) 
+# !переменные используются, только если установлен server_type в http!
+http:
     path_to_packages_mirror: '/srv/se13'
-    link_to_packages_mirror: '/astra'
+    link_to_packages_mirror: 'astra'
     path_to_tftp_files: '/srv/tftp'
-    link_to_tftp_files: '/tftpboot'
+    
+# Для пути к репозиторию ПК КВГ (для варианта когда используется ftp)
+# !переменные используются, только если установлен server_type в ftp!
+ftp:
+    path_to_ftp_root: '/home/ftp'
+    astra_rep_name: 'astra_repository'
+    hac_rep_name: 'hac_repository'
+    src_with_astra_rep: '/media/cdrom'
+    src_with_hac_rep: '/home/ftp/hac'
 
-    # Имя домена
-    default_domain: 'hac'
+# Диапазон ip для dhcp сервера
+dhcp_subset: [172.16.0.90, 172.16.0.125, 255.255.255.0]
 
-    # Диапазон ip для dhcp сервера
-    dhcp_subset: [172.16.0.90, 172.16.0.125, 255.255.255.0]
+# Список для автоназначения hostname, для добавления новой машины, через запятую
+# пишем { hostname: 'Имя машины(доступны след. символы 'a-zA-Z0-9' и знак '-')', 
+#         ip: 'ip адрес из диапазона указанного в dhcp_subset' }
+## target_machines: [{ hostname: 'hacnode1', ip: '172.16.0.50' },  { hostname: 'hacnode2', ip: '172.16.0.51' }]
 
-    # Список для автоназначения hostname, для добавления новой машины, через запятую
-    # пишем { hostname: 'Имя машины(доступны след. символы 'a-zA-Z0-9' и знак '-')', ip: 'ip адрес из диапазона указанного в dhcp_subset' }
-    ## target_machines: [{ hostname: 'hacnode1', ip: '172.16.0.50' },  { hostname: 'hacnode2', ip: '172.16.0.51' }]
+# В случае если Вам необходимо назначить определенный hostname на определенную машину, 
+# НЕ используйте вариант задания через переменную target_machines, 
+# вместо этого заполняйте переменную machines_by_mac. В ней обязательно определяйте mac и
+# желаемый для данного mac'а hostname, можно еще также указывать специальный preseed 
+# (если не указать будет использован preseed файл по-умолчанию из переменной default_preseed). 
+# Все preseed складываем в roles/common/templates.
 
-# В случае если Вам необходимо назначить определенный hostname на определенную машину, НЕ используйте вариант задания
-# через переменную target_machines, вместо этого заполняйте переменную machines_by_mac. В ней обязательно определяйте mac и
-# желаемый для данного mac'а hostname, можно еще также указывать специальный preseed (если не указать будет использован preseed файл по-умолчанию
-# из переменной default_preseed). Все preseed складываем в roles/common/templates.
-
-    machines_by_mac:
-        - { mac: '00-25-90-cb-03-2b', hostname: 'hacnode1' }
-        - { mac: '00-25-90-cb-03-2a', hostname: 'hacnode1' }
-        - { mac: '00-25-90-c9-a3-fc', hostname: 'hacnode2' }
-        - { mac: '00-25-90-c9-a3-fd', hostname: 'hacnode2' }
-        - { mac: '00-25-90-c7-72-b4', hostname: 'hacnode3' }
-        - { mac: '00-25-90-c7-72-b5', hostname: 'hacnode3', preseed: 'preseed.softraid.cfg.j2' }
+machines_by_mac:
+    - { mac: '00-25-90-cb-03-2b', hostname: 'hacnode1' }
+    - { mac: '00-25-90-cb-03-2a', hostname: 'hacnode1' }
+    - { mac: '00-25-90-c9-a3-fc', hostname: 'hacnode2' }
+    - { mac: '00-25-90-c9-a3-fd', hostname: 'hacnode2' }
+    - { mac: '00-25-90-c7-72-b4', hostname: 'hacnode3' }
+    - { mac: '00-25-90-c7-72-b5', hostname: 'hacnode3' }
+    - { mac: '00-1c-c0-f8-ff-6a', hostname: 'crimea', preseed: 'preseed.cfg.j2' }
 

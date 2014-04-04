@@ -2,13 +2,17 @@
 # The main playbook to set up installation server
 
 - hosts: inst_servers
-#  user: root
-  connection: local
-  sudo: True
+  user: root
+#  connection: local
+#  sudo: True
 
   pre_tasks:
    - name: обновление списка пакетов
      apt: update_cache=yes
+     
+   - name: проверям установленные server_type  
+     fail: msg="Invalid value of 'server_type' variable"
+     when: server_type != 'http' and server_type != 'ftp'
 
   roles:
    - common
@@ -17,7 +21,9 @@
    - name: перезапуск службы apache2
      service: name=apache2 state=restarted
      tags: remove_dhcp_leases
+     when: server_type == 'http'
 
    - name: перезапуск службы dnsmasq
      service: name=dnsmasq state=restarted
      tags: remove_dhcp_leases
+     
