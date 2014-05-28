@@ -12,10 +12,7 @@ d-i keyboard-configuration/toggle select Alt+Shift
 d-i console-setup/fontface select Terminus
 d-i console-setup/ask_detect boolean false
 d-i console-setup/layoutcode string ru
-d-i console-setup/variant Россия   
-
-# настройки сети
-d-i netcfg/choose_interface select auto
+d-i console-setup/variant Россия
 
 # подключение репозиториев
 d-i apt-setup/non-free boolean true

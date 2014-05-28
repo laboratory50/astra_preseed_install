@@ -1,3 +1,6 @@
+#
+# © ОАО «Северное ПКБ», 2014
+#
 ---
 # main playbook
     - include: dnsmasq.yml
@@ -12,7 +15,7 @@
       vars:
          tftp_path: '{{ ftp.path_to_ftp_root }}/{{ link_to_tftp_files }}'
       when: server_type == 'ftp'
-      tags: [no_make_rep]
+      tags: [no_make_rep, tftp_preseed]
       
     - include: apache2.yml
       when: server_type == 'http'
