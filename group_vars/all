@@ -47,6 +47,13 @@ dhcp_subset: [172.16.0.90, 172.16.0.125, 255.255.255.0]
 # желаемый для данного mac'а hostname, можно еще также указывать специальный preseed 
 # (если не указать будет использован preseed файл по-умолчанию из переменной default_preseed). 
 # Все preseed складываем в roles/common/templates.
+# По-умолчанию сеть настраивается c dhcp, если Вам необходим статический IP
+# добавьте опцию ip в следующем формате - ip: XXX.XXX.XXX.XXX,
+# также можно, если понимаете зачем Вам это, указать mask (по-умолчанию берется netmask host-машины)
+# Пример настройки для статического ip:
+# { mac: '00-1c-c0-f8-ff-6a', hostname: 'example', preseed: 'preseed.cfg.j2', ip: 10.10.10.50 }
+# Пример настройки для статического ip с netmask:
+# { mac: '00-1c-c0-f8-ff-6a', hostname: 'example', preseed: 'preseed.cfg.j2', ip: 10.10.10.50, mask: 255.255.255.0 }
 
 machines_by_mac:
     - { mac: '00-25-90-cb-03-2b', hostname: 'hacnode1' }
@@ -55,5 +62,5 @@ machines_by_mac:
     - { mac: '00-25-90-c9-a3-fd', hostname: 'hacnode2' }
     - { mac: '00-25-90-c7-72-b4', hostname: 'hacnode3' }
     - { mac: '00-25-90-c7-72-b5', hostname: 'hacnode3' }
-    - { mac: '00-1c-c0-f8-ff-6a', hostname: 'crimea', preseed: 'preseed.cfg.j2' }
+    - { mac: '00-1c-c0-f8-ff-6a', hostname: 'crimea', preseed: 'preseed.cfg.j2', ip: 172.16.0.100 }
 
