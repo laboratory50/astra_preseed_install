@@ -13,12 +13,14 @@
   tasks:
     - name: удаление пакетов
       apt: pkg={{ item }} state=absent purge=yes
-      with_items: [apache2, tftpd-hpa, tftp-hpa, dnsmasq, vsftpd]
+      with_items: [apache2, tftpd-hpa, dnsmasq, vsftpd]
 
     - name: удаление ссылок на tftp
-      file: path={{ item }} state=absent
-      with_items: [ $http.link_to_packages_mirror, $http.link_to_tftp_files]
+      file: path={{ link_to_tftp_files }} state=absent
+
+    - name: удаление ссылок на зеркало пакетов
+      file: path={{ http.link_to_packages_mirror }} state=absent
 
     - name: удаление каталога tftp
-      file: path={{ path_to_tftp_files }} state=absent
-
+      file: path={{ http.path_to_tftp_files }} state=absent
+      when: server_type == 'http'
