@@ -49,6 +49,10 @@ d-i     partman-auto-lvm/guided_size string 100%
 d-i     partman-auto-lvm/no_boot boolean true
 d-i     partman-auto/expert_recipe string        \
            cluster ::                            \
+                1 1 1 free                       \
+                $iflabel{ gpt }                  \
+                method{ biosgrub }               \
+             .                                   \
              62000 10 62000 ext4                 \
                 $defaultignore{ }                \
                 $lvmok{ }                        \
@@ -66,7 +70,7 @@ d-i     partman-auto/expert_recipe string        \
                 method{ swap }                   \
                 format{ }                        \
              .                                   \
-             409600 30 409600 ext4               \
+             509600 30 509600 ext4               \
                 $defaultignore{ }                \
                 $lvmok{ }                        \
                 lv_name{ lv_gluster }            \
