@@ -56,11 +56,18 @@ dhcp_subset: [172.16.0.90, 172.16.0.125, 255.255.255.0]
 # { mac: '00-1c-c0-f8-ff-6a', hostname: 'example', preseed: 'preseed.cfg.j2', ip: 10.10.10.50, mask: 255.255.255.0 }
 
 machines_by_mac:
-    - { mac: '00-25-90-cb-03-2b', hostname: 'hacnode1' }
-    - { mac: '00-25-90-cb-03-2a', hostname: 'hacnode1' }
-    - { mac: '00-25-90-c9-a3-fc', hostname: 'hacnode2' }
-    - { mac: '00-25-90-c9-a3-fd', hostname: 'hacnode2' }
-    - { mac: '00-25-90-c7-72-b4', hostname: 'hacnode3' }
-    - { mac: '00-25-90-c7-72-b5', hostname: 'hacnode3' }
+    - { mac: '00-25-90-cb-03-2b', hostname: 'hacnode1', ip: 172.16.0.20 }
+    - { mac: '00-25-90-cb-03-2a', hostname: 'hacnode1', ip: 172.16.0.20 }
+    - { mac: '90-e2-ba-21-35-60', hostname: 'hacnode1', ip: 172.16.0.20 }
+    - { mac: '90-e2-ba-21-35-61', hostname: 'hacnode1', ip: 172.16.0.20 }
+    - { mac: '00-25-90-c9-a3-fc', hostname: 'hacnode2', ip: 172.16.0.21 }
+    - { mac: '00-25-90-c9-a3-fd', hostname: 'hacnode2', ip: 172.16.0.21 }
+    - { mac: '90-e2-ba-29-cc-76', hostname: 'hacnode2', ip: 172.16.0.21 }
+    - { mac: '90-e2-ba-29-cc-77', hostname: 'hacnode2', ip: 172.16.0.21 }
+    - { mac: '00-25-90-c7-72-b4', hostname: 'hacnode3', ip: 172.16.0.22 }
+    - { mac: '00-25-90-c7-72-b5', hostname: 'hacnode3', ip: 172.16.0.22 }
+    - { mac: '90-e2-ba-23-5f-dc', hostname: 'hacnode3', ip: 172.16.0.22 }
+    - { mac: '90-e2-ba-23-5f-dd', hostname: 'hacnode3', ip: 172.16.0.22 }
     - { mac: '00-1c-c0-f8-ff-6a', hostname: 'crimea', preseed: 'preseed.cfg.j2', ip: 172.16.0.100 }
+    - { mac: '00-1c-c0-f8-f8-fe', hostname: 'adm-station', preseed: 'preseed.cfg.j2', ip: 172.16.0.211 }
 

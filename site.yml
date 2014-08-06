@@ -7,7 +7,7 @@
 - hosts: inst_servers
   user: root
 #  connection: local
-#  sudo: True
+#  sudo: true
 
   pre_tasks:
    - name: обновление списка пакетов
