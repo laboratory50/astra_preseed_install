@@ -1,4 +1,4 @@
-interface=eth0
+interface={{ hostvars[inventory_hostname].ansible_eth0.device }}
 dhcp-range={{ dhcp_subset[0] }},{{ dhcp_subset[1] }},{{ dhcp_subset[2] }},24h
 dhcp-option=3,{{ hostvars[inventory_hostname].ansible_eth0.ipv4.address }}
 enable-tftp
