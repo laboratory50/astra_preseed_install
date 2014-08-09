@@ -15,7 +15,12 @@ default_domain: 'hac'
 
 # путь к файлам tftp
 link_to_tftp_files: 'tftpboot'
-    
+
+network:
+   addr: '{{ hostvars[inventory_hostname].ansible_eth0.ipv4.address }}'
+   mask: '{{ hostvars[inventory_hostname].ansible_eth0.ipv4.netmask }}'
+   name: '{{ hostvars[inventory_hostname].ansible_eth0.device }}'
+
 # Полную путь к репозиторию пакетов
 #(!репозиторий создается самостоятельно, простейший случай просто путь к подмонтированному cd диску!) 
 # !переменные используются, только если установлен server_type в http!

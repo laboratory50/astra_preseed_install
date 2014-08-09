@@ -22,10 +22,12 @@ preseed_install это ansible скрипт для установки необх
    при этом строчку user:... комментируем.
 
 == Про интрефейс для служб (dnsmasq и.т.д.) ==
-Сейчас по умолчанию во всех шаблонах, где нужен ip-адрес
-подставляется 'hostvars[inventory_hostname].ansible_eth0.ipv4.address',
-если Вам нужен другой адаптер меняйте строку во всех шаблонах на
-'hostvars[inventory_hostname].ansible_<ИМЯ АДАПТЕРА>.ipv4.address'
+Сетевые настройки для сервера установки задаются в секции network файла groups_vars/all
+Сейчас по-умолчанию во всех шаблонах, где нужен ip-адрес,mask,имя-адаптера(т.е. ethN)
+подставляется 'hostvars[inventory_hostname].ansible_eth0.ipv4.<address/netmask/device>',
+если Вам нужен другой адаптер меняйте строку в секции network на
+'hostvars[inventory_hostname].ansible_<ИМЯ АДАПТЕРА>.ipv4.<address/netmask/device>'
+или пропишите явно(адрес, маску и имя).
 
 ========== Подробности ==========
 

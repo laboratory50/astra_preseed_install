@@ -24,7 +24,7 @@ d-i netcfg/wireless_wep string
 # настройка зеркала с пакетами
 d-i mirror/protocol string {{ server_type }}
 d-i mirror/country string manual
-d-i mirror/{{ server_type }}/hostname string {{ hostvars[inventory_hostname].ansible_eth0.ipv4.address }}
+d-i mirror/{{ server_type }}/hostname string {{ network.addr }}
 d-i mirror/{{ server_type }}/directory string {% if server_type == 'http' %}/{{ http.link_to_packages_mirror }}{% else %}/{{ ftp.astra_rep_name }}{% endif %}
 
 d-i mirror/{{ server_type }}/proxy string
