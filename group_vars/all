@@ -24,6 +24,7 @@ network:
 # Полную путь к репозиторию пакетов
 #(!репозиторий создается самостоятельно, простейший случай просто путь к подмонтированному cd диску!) 
 # !переменные используются, только если установлен server_type в http!
+# в случае http репозитории ПК КВГ и devel репозиторий Astra Linux не разворачиваются!
 http:
     path_to_packages_mirror: '/srv/se13'
     link_to_packages_mirror: 'astra'
@@ -33,10 +34,12 @@ http:
 # !переменные используются, только если установлен server_type в ftp!
 ftp:
     path_to_ftp_root: '/home/ftp'
-    astra_rep_name: 'astra_repository'
-    hac_rep_name: 'hac_repository'
+    astra_rep_name: 'astra'
+    dev_astra_rep_name: 'astra_dev'
+    hac_rep_name: 'hac'
     src_with_astra_rep: '/media/cdrom'
-    src_with_hac_rep: '/home/ftp/hac'
+    src_with_dev_astra_rep: '/media/cdrom'
+    src_with_hac_rep: '/media/cdrom'
 
 # Диапазон ip для dhcp сервера
 dhcp_subset: [172.16.0.90, 172.16.0.125, 255.255.255.0]
