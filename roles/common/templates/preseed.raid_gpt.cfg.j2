@@ -104,16 +104,16 @@ d-i base-installer/kernel/image string linux-image-generic
 d-i passwd/make-user boolean true
 
 # пароль суперпользователя, любой открытым текстом
-d-i passwd/root-password password password
-d-i passwd/root-password-again password password
+d-i passwd/root-password password {{ password.root }}
+d-i passwd/root-password-again password {{ password.root }}
 
 # создать учётную запись обычного пользователя.
 d-i passwd/user-fullname string user
 d-i passwd/username string user
 
 # пароль обычного пользователя, или открытым текстом
-d-i passwd/user-password password user
-d-i passwd/user-password-again password user
+d-i passwd/user-password password {{ password.user }}
+d-i passwd/user-password-again password {{ password.user }}
 
 console-setup console-setup/fontface select Terminus
 
@@ -148,7 +148,7 @@ ald-client ald-client/manual_configure note
 #astra-feat-setup astra-feat-setup/feat multiselect kiosk mode
 tasksel tasksel/astra-feat-setup multiselect
 
-d-i console-cyrillic/toggle select Caps Lock
+d-i console-cyrillic/toggle select Alt+Shift
 
 # некоторые версии программы установки могут отсылать отчёт
 # об установленных пакетах. По умолчанию данная возможность
@@ -165,6 +165,8 @@ d-i grub-installer/only_debian boolean true
 # есть другая ОС, что менее безопасно, так как может привести к отказу
 # загрузки этой другой ОС.
 d-i grub-installer/with_other_os boolean true
+d-i grub-installer/password password {{ password.grub }}
+d-i grub-installer/password-again password {{ password.grub }}
 
 # остановить систему после завершения установки, а
 # не перегружаться в установленную систему.

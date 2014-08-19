@@ -13,6 +13,14 @@ os_name: 'astra'
 # Имя домена
 default_domain: 'hac'
 
+# Пароли
+# !! Внимание пароли храняться открытым текстом, так что после установки
+# !! рекомендуется их сменить
+password:
+   user: 'useruser'
+   root: 'password'
+   grub: '12345678'
+
 # путь к файлам tftp
 link_to_tftp_files: 'tftpboot'
 
