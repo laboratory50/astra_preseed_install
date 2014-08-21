@@ -166,5 +166,6 @@ d-i grub-installer/password-again password {{ password.grub }}
 
 # остановить систему после завершения установки, а
 # не перегружаться в установленную систему.
+d-i finish-install/reboot_in_progress note
 d-i debian-installer/exit/halt boolean true
 
