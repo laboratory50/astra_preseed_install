@@ -13,6 +13,7 @@
 
     - name: создание файла c конфигурацией tftp
       template: src=tftp.conf.j2 dest={{ tftp_path }}/pxelinux.cfg/default owner=dnsmasq mode=0644
+      when: dhcp.static_mode is not defined or dhcp.static_mode == false
 
     - name: создание файла автоматической установки для tftp
       template: src={{ default_preseed }} dest={{ tftp_path }}/{{ default_preseed_filename }} owner=dnsmasq mode=0644
