@@ -1,8 +1,18 @@
 interface={{ network.name }}
-dhcp-range={{ dhcp_subset[0] }},{{ dhcp_subset[1] }},{{ dhcp_subset[2] }},24h
+{% if dhcp.static_mode is defined and dhcp.static_mode %}
+dhcp-range={{ network.network }},static
+{% else %}
+dhcp-range={{ dhcp.subset[0] }},{{ dhcp.subset[1] }},{{ dhcp.subset[2] }},24h
+{% endif %}
 dhcp-option=3,{{ network.addr }}
 enable-tftp
 tftp-root={%if server_type=='http' %}{{ http.path_to_tftp_files }}{% else %}{{ ftp.path_to_ftp_root }}/{{ link_to_tftp_files }}{% endif %}
 
 dhcp-boot=pxelinux.0
-
+{% if dhcp.static_mode is defined and dhcp.static_mode %}
+{% for row in machines_by_mac %}
+{% if row.mac is defined and row.ip is defined %}
+dhcp-host={% for mac in row.mac %}{{ mac|replace('-',':') }},{% endfor %}{{ row.ip }}
+{% endif %}
+{% endfor %}
+{% endif %}

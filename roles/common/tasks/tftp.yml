@@ -18,8 +18,10 @@
       template: src={{ default_preseed }} dest={{ tftp_path }}/{{ default_preseed_filename }} owner=dnsmasq mode=0644
 
     - name: создание файлов конфигурации tftp по mac адресам
-      template: src=tftp.conf.j2 dest={{ tftp_path }}/pxelinux.cfg/01-{{ item.mac }} owner=dnsmasq mode=0644
-      with_items: machines_by_mac
+      template: src=tftp.conf.j2 dest={{ tftp_path }}/pxelinux.cfg/01-{{ item.1 }} owner=dnsmasq mode=0644
+      with_subelements:
+       - machines_by_mac
+       - mac
       when: machines_by_mac is defined
 
     - name: создание preseed файлов по mac адресам

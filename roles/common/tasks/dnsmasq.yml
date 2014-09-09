@@ -7,8 +7,8 @@
     - name: установка dnsmasq
       apt: pkg=dnsmasq state=latest
 
-    - name: корректировка конфигурационных файлов dnsmasq
-      template: src=dnsmasq.conf.j2 dest=/etc/dnsmasq.conf backup=yes owner=dnsmasq mode=0775
+    - name: создание конфигурационного файла dnsmasq
+      template: src=dnsmasq.conf.j2 dest=/etc/dnsmasq.conf backup=yes owner=dnsmasq mode=0644
 
     - name: добавление hostnames целевых машин в /etc/hosts
       lineinfile: dest=/etc/hosts regexp='.*{{ item.ip }}' line='{{ item.ip }} {{ item.hostname }}' state=present
@@ -18,3 +18,4 @@
     - name: очистка dhcp.leases
       file: path=/var/lib/misc/dnsmasq.leases state=absent
       tags: [remove_dhcp_leases]
+
