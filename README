@@ -1,4 +1,7 @@
-Copyright (c) 2013-2014 Severnoe DB JSC
+Copyright (c) 2013-2015 Лаборотория 50 (http://lab50.net)
+
+*********************ДЛЯ Astra Linux 1.3 Special Edition*************************
+
 
 preseed_install это ansible скрипт для установки необходимых пакетов и их настройки на хост-машине,
 которая должна стать сервером для установки ОС Astra Linux Special Edition на целевых машинах(узлах) по сети.
