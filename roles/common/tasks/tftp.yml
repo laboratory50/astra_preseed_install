@@ -26,8 +26,8 @@
       when: machines_by_mac is defined
 
     - name: создание preseed файлов по mac адресам
-      template: src={{ item.preseed|default('${default_preseed}') }}
-                dest={{ tftp_path }}/{{ item.preseed|default('${default_preseed_filename}')|replace('.j2','') }}
+      template: src={{ item.preseed|default('{{default_preseed}}') }}
+                dest={{ tftp_path }}/{{ item.preseed|default('{{default_preseed_filename}}')|replace('.j2','') }}
                 owner=dnsmasq
                 mode=0644
       with_items: machines_by_mac
