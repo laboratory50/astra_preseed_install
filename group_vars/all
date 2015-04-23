@@ -41,7 +41,7 @@ http:
 # !переменные используются, только если установлен server_type в ftp!
 ftp:
     path_to_ftp_root: '/home/ftp'
-    astra_rep_name: 'astra'
+    astra_rep_name: 'astra_rep_1.4'
     dev_astra_rep_name: 'astra_dev'
     hac_rep_name: 'hac'
     src_with_astra_rep: '/media/cdrom'
