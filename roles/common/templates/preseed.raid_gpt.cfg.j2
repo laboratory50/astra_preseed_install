@@ -147,6 +147,8 @@ ald-client ald-client/manual_configure note
 # НЕ настраивать киоск
 #astra-feat-setup astra-feat-setup/feat multiselect kiosk mode
 tasksel tasksel/astra-feat-setup multiselect
+# Ответ на вопрос про тип экрана: рабочий стол
+d-i desktop-tablet-mode-switch/tablet-mode boolean false
 
 d-i console-cyrillic/toggle select Alt+Shift
 
