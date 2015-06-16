@@ -28,9 +28,9 @@
  0. Запуск `ansible-playbook -i <файл с описание хостов> <yml-файл c playbook>`
  1. Для запуска playbook на локальном хосте добавляем строчку `connection: local` после:
 
-    - hosts: компьютер1
-      user: root
-      <cюда>
+        - hosts: компьютер1
+          user: root
+          <cюда>
 
  2. Для использования sudo добавляем по строку `sudo: True`
     по аналогии с п.1, не забываем при запуске (см. п.0) добавлять --ask-sudo-pass,
@@ -63,39 +63,39 @@ c оригинального диска с ОС Astra Linux 1.3):
 
  1. распаковка и упаковка initrd.gz:
 
-    #!/bin/sh
-    if [ -d $1 ]; then
-        rm -rf $1
-    fi
-    if [ -f initrd ]; then
-        rm initrd
-    fi
-    if ! [ -f initrd.gz ]; then
-        echo "initrd.gz not found"
-        exit 1
-    fi
-    gunzip initrd.gz
-    mkdir $1
-    cd $1
-    cpio -id < ../initrd
+        #!/bin/sh
+        if [ -d $1 ]; then
+            rm -rf $1
+        fi
+        if [ -f initrd ]; then
+            rm initrd
+        fi
+        if ! [ -f initrd.gz ]; then
+            echo "initrd.gz not found"
+            exit 1
+        fi
+        gunzip initrd.gz
+        mkdir $1
+        cd $1
+        cpio -id < ../initrd
 
  2. сборка initrd.gz:
 
-    #!/bin/sh
-    if ! [ -d $1 ]; then
-        echo "folder not found"
-        exit 1
-    fi
-    if [ -f initrd ]; then
-        rm initrd
-    fi
-    if [ -f initrd.gz ]; then
-        rm initrd.gz
-    fi
-    cd $1
-    find . | cpio --create --format='newc' > ../initrd
-    cd ..
-    gzip initrd
+        #!/bin/sh
+        if ! [ -d $1 ]; then
+            echo "folder not found"
+            exit 1
+        fi
+        if [ -f initrd ]; then
+            rm initrd
+        fi
+        if [ -f initrd.gz ]; then
+            rm initrd.gz
+        fi
+        cd $1
+        find . | cpio --create --format='newc' > ../initrd
+        cd ..
+        gzip initrd
 
 В качестве зеркала используется собственный репозиторий пакетов, в котором добавлен пакет
 grub-installer_1.78ubuntu8_amd64.udeb, поскольку grub-installer_1.70astra.se4_amd64.udeb содержит
