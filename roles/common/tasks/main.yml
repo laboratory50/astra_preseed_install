@@ -24,6 +24,6 @@
       when: server_type == 'ftp'
       tags: [no_make_rep]
       
-    - include: copy_files.yml
-      when: server_type == 'ftp'
+#    - include: copy_files.yml
+#      when: server_type == 'ftp'
 

@@ -9,23 +9,28 @@ server_type: 'ftp'
 default_preseed: 'preseed.softraid.cfg.j2'
 
 # Имя цели используемое tftp
-os_name: 'astra'
+os_name: astra
 # Имя домена
-default_domain: 'hac'
+default_domain: lab50
 
 # Пароли !! После установки рекомендуется сменить пароли !!
 password:
-   user: 'useruser'
+   user: 'password'
    root: 'password'
-   grub: '12345678'
+   grub: 'password'
 
 # путь к файлам tftp
 link_to_tftp_files: 'tftpboot'
 
+# Параметры сети сервера
 network:
+   # IP-адрес сервера
    addr: '{{ hostvars[inventory_hostname].ansible_eth0.ipv4.address }}'
+   # Сетевая маска
    mask: '{{ hostvars[inventory_hostname].ansible_eth0.ipv4.netmask }}'
+   # IP-адрес сети
    network: '{{ hostvars[inventory_hostname].ansible_eth0.ipv4.network }}'
+   # Сетевой интерфейс
    name: '{{ hostvars[inventory_hostname].ansible_eth0.device }}'
 
 # Полную путь к репозиторию пакетов
@@ -41,9 +46,9 @@ http:
 # !переменные используются, только если установлен server_type в ftp!
 ftp:
     path_to_ftp_root: '/home/ftp'
-    astra_rep_name: 'astra_rep_1.4'
-    dev_astra_rep_name: 'astra_dev'
-    hac_rep_name: 'hac'
+    astra_rep_name: 'se14/os'
+    dev_astra_rep_name: 'se14/dev'
+    hac_rep_name:
     src_with_astra_rep: '/media/cdrom'
     src_with_dev_astra_rep: '/media/cdrom'
     src_with_hac_rep: '/media/cdrom'
@@ -53,7 +58,7 @@ dhcp:
     # Включение/выключение статического режима dhcp сервера: false или true,
     # если установлено в true, то адреса выдаются только по тем mac-адресам, которык указаны в machines_by_mac
     static_mode: true
-    # Диапозон адресов, используется когда static_mode равен false
+    # Диапазон адресов, используется когда static_mode равен false
     subset: [172.16.0.90, 172.16.0.125, 255.255.255.0]
 
 # Список для автоназначения hostname, для добавления новой машины, через запятую
