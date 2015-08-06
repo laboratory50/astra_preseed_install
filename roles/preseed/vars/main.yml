@@ -5,7 +5,7 @@ standard:
   partman: lvm
 
   # partman-auto/disk (/dev/sdX, /dev/vdX или пустое значение)
-  disk: 
+  disk:
 
   # настройки LVM, если нет, то не будет использоваться
   lvm:

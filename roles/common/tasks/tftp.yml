@@ -19,7 +19,7 @@
 #                owner=dnsmasq mode=0644
 
     - name: чистка старых настроек
-      shell: rm {{ tftp.path }}/pxelinux.cfg/01-*
+      shell: rm -f {{ tftp.path }}/pxelinux.cfg/01-*
 
     - name: создание файлов конфигурации tftp по mac адресам
       template: src=tftp.conf.j2 dest={{ tftp.path }}/pxelinux.cfg/01-{{ item.1|replace(':','-') }}

@@ -68,7 +68,7 @@ d-i time/zone string Europe/Moscow
 d-i clock-setup/ntp boolean false
 
 # разбиение диска создание разделов
-{% if 'disk' in preseed %}
+{% if 'disk' in preseed and preseed.disk %}
 d-i     partman-auto/disk string {{ preseed.disk }}
 {% endif %}
 d-i     partman-auto/method string {{ preseed.partman }}
@@ -108,6 +108,7 @@ d-i     partman-auto/expert_recipe string       \
 {% endif %}
 {% if part.fs == 'swap' %}
                 method{ swap }                  \
+                format{ }                       \
 {% else %}
                 method{ format }                \
                 format{ }                       \
