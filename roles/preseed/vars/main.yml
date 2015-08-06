@@ -1,0 +1,50 @@
+standard:
+  name: "{{ default_preseed }}"
+
+  # partman-auto/method (raid, lvm, regular)
+  partman: lvm
+
+  # partman-auto/disk (/dev/sdX, /dev/vdX или пустое значение)
+  disk: 
+
+  # настройки LVM, если нет, то не будет использоваться
+  lvm:
+    name: system
+
+  # настройки программного RAID (если нужен)
+  #softraid:
+
+  partitions:
+    - name: root
+      mount: /
+      size: 30/50
+      fs: ext4
+    - name: swap
+      size: 200%
+      fs: swap
+    - name: var
+      mount: /var
+      size: 100/200
+      fs: ext4
+
+  # Локаль в формате aa_BB (ru_RU)
+  locale: ru_RU
+
+  # Комбинация переключения раскладки (Ctrl+Shift)
+  keyboard_toggle: Ctrl+Shift
+
+  # Часовой пояс (Europe/Moscow)
+  timezone: Europe/Moscow
+
+  # Выбор макропакетов инсталляции. Список можно узнать с помощью
+  # команды «tasksel --list-tasks».
+  # Astra Linux Special Edition: Base, Fly, Internet, Office,
+  #  Features, Network, Database, Multimedia
+  # Стандартное значение: Base, Fly
+  tasksel: [Base, Fly]
+
+  # Дополнительные пакеты для установки (openssh-server ethtool)
+  extra_pkgs: [openssh-server, ethtool]
+
+  # Спец. возможности Астры: kiosk, ald-server, ald-client ([])
+  astra: []

@@ -1,0 +1,8 @@
+---
+# - debug: var=hostvars[inventory_hostname]
+
+ - file: path={{ repos.path }}/tftpboot state=directory owner=dnsmasq mode=0755
+
+ - name: делаем шаблон
+   template: dest={{ repos.path }}/tftpboot/{{ preseed.name }} src=preseed
+             owner=dnsmasq mode=0644
