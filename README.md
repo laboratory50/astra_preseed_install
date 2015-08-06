@@ -1,7 +1,8 @@
 # Автоматическая установка ОС ОС «Astra Linux Special Edition»
 
-Этот репозиторий содержит Ansible-раскатку для сервера автоматической установки
-по сети ОС Astra Linux Special Edition на целевые машины.
+Этот репозиторий содержит сценарии Ansible для создания сервера
+автоматической установки по сети ОС Astra Linux Special Edition
+на целевые машины.
 
 Авторы: [Лаборатория 50](http://лаборатория50.рф) team@lab50.net.
 
@@ -14,36 +15,69 @@
 
 Используются следующие пакеты:
 
- - Dnsmasq
- - Apache
+ - Ansible версии 1.7+;
+ - Dnsmasq — DHCP и TFTP сервер;
+ - LigHTTPd/Apache 2/vsftpd — сервер раздачи репозитория/preseed файлов.
+
+## Возможности
+
+Проект в первую очередь предназначен для использования сисадминами и внедренцами,
+работающими с Astra Linux Special Edition. Сценарии позволяют создать полностью
+автономный сервер для сетевой установки ОС. Например, на ноутбуке.
+
+Важные функции:
+
+ - Раздача репозитория операционной системы.
+ - Упрощенное создание сценариев установки (pressed-файлов) оптимизированных
+   для Астры.
+ - Поддержка программного RAID и LVM.
+ - Привязка IP-адресов к MAC-адресам.
+ - Использование разных сценариев установки для разных узлов (привязка к MAC-адресам).
 
 ## Подготовка
 
-Ставим пакет ansible -> `aptitude install ansible`
+ 1. Установите пакет ansible: `apt-get -y install ansible`.
+ 2. Создайте файл stage (на базе примера stage.sample). Пример рассчитан на установку
+    на локальный узел.
+ 3. Создайте сценарий установки на базе примера site.yml: `cp site.yml my.yml`.
+    Поставляемый файл рассчитан на установку на локальном узле пользователем с
+    возможностью использования sudo. Если вы работаете под root-ом, значение
+    `sudo` установите в `false`.
+ 4. Создайте свои сценарии установки ОС (preseed) в отдельном файле, например
+    `preseeds.yml`.
+ 5. Сконфигурируйте параметры инсталляции в файле `group_vars/all`.
 
 ## Установка
 
-Затем:
+Установка производится с помощью Ansible:
 
- 0. Запуск `ansible-playbook -i <файл с описание хостов> <yml-файл c playbook>`
- 1. Для запуска playbook на локальном хосте добавляем строчку `connection: local` после:
+    ansible-playbook -i stage my.yml
 
-        - hosts: компьютер1
-          user: root
-          <cюда>
+## Сценарий установки ОС (preseed-файл)
 
- 2. Для использования sudo добавляем по строку `sudo: True`
-    по аналогии с п.1, не забываем при запуске (см. п.0) добавлять --ask-sudo-pass,
-    при этом строчку user:... комментируем.
+Preseed-файл задает параметры автоматической установки Debian-подобных систем.
+В проекте есть роль `preseed` которая облегчает создание этого файла путем
+автоматической генерации на основании шаблона. Вы можете создавать любое
+количество preseed-файлов.
 
-### Про интрефейс для служб (dnsmasq и.т.д.)
+Пример использования нескольких сценариев (в `my.yml`):
 
-Сетевые настройки для сервера установки задаются в секции network файла `groups_vars/all`
-Стандартные настройки в шаблонах где нужен ip-адрес, маска, имя-адаптера (т.е. ethN)
-подставляется `hostvars[inventory_hostname].ansible_eth0.ipv4.<address/netmask/device>`,
-если вам нужен другой адаптер меняйте строку в секции network на
-`hostvars[inventory_hostname].ansible_<ИМЯ АДАПТЕРА>.ipv4.<address/netmask/device>`
-или пропишите явно (адрес, маску и имя).
+    …
+      roles:
+        - { role: preseed, preseed: "{{ server }}" }
+        - { role: preseed, preseed: "{{ client }}" }
+    …
+
+В примере будет создаваться два preseed-файла, определяемых переменными
+`server` и `client` в файле `preseeds.yml`:
+
+    server:
+        name: server
+        …
+
+    client:
+        name: client
+        …
 
 ## Замечания для версии Астры 1.3
 
@@ -52,12 +86,12 @@
 c оригинального диска с ОС Astra Linux 1.3):
 
  - изменен usr/share/localechooser/languagelist поддержка русскому языку изменена с 2 на 1.
-   было ru;2;RU;ru_RU.UTF-8;;console-setup стало ru;1;RU;ru_RU.UTF-8;;console-setup
+   было `ru;2;RU;ru_RU.UTF-8;;console-setup` стало `ru;1;RU;ru_RU.UTF-8;;console-setup`
  - добавлен модуль dca.ko в lib/modules/3.2.0-27-generic/kernel/drivers/dca/
- - добавлены модули dm-log.ko dm-mirror.ko dm-mod.ko dm-region-hash.ko
-   в lib/modules/3.2.0-27-generic/kernel/drivers/md/
- - добавлены ключи lab50-archive-keyring.gpg от собственного репа
-   (он служит зеркалом при установке) в usr/share/keyrings
+ - добавлены модули `dm-log.ko` `dm-mirror.ko` `dm-mod.ko` `dm-region-hash.ko`
+   в `lib/modules/3.2.0-27-generic/kernel/drivers/md/`
+ - добавлены ключи `lab50-archive-keyring.gpg` от собственного репа
+   (он служит зеркалом при установке) в `usr/share/keyrings`
 
 Как это все сделать самостоятельно.
 
@@ -98,6 +132,6 @@ c оригинального диска с ОС Astra Linux 1.3):
         gzip initrd
 
 В качестве зеркала используется собственный репозиторий пакетов, в котором добавлен пакет
-grub-installer_1.78ubuntu8_amd64.udeb, поскольку grub-installer_1.70astra.se4_amd64.udeb содержит
+`grub-installer_1.78ubuntu8_amd64.udeb`, поскольку `grub-installer_1.70astra.se4_amd64.udeb` содержит
 ошибки при установке grub на soft&fake raid.
 
