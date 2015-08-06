@@ -19,3 +19,5 @@
     # Список подготавливаемых шаблонов, как минимум нужен standard
     - { role: preseed, preseed: "{{ standard }}" }
     - common
+    # Копирование репозитория операционной системы
+    # - { role: copy, src: /media/cdrom, dst: "{{ repos.path }}/{{ repos.os }}" }

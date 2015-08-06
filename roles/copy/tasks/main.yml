@@ -1,0 +1,18 @@
+#
+# © ООО «Лаборатория 50», 2015
+#
+---
+  - name: установка rsync
+    apt: pkg=rsync state=latest
+
+  - name: создание целевого каталога
+    file: path={{ dst }} state=directory
+          owner=www-data group=www-data
+
+  - name: заливка репозитория (dists)
+    synchronize: src={{ src }}/dists dest={{ dst }}
+                 links=yes mode=pull recursive=yes
+
+  - name: заливка репозитория (pool)
+    synchronize: src={{ src }}/pool dest={{ dst }}
+                 links=yes mode=pull recursive=yes
