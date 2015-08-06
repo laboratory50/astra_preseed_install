@@ -22,7 +22,7 @@
       shell: rm {{ tftp.path }}/pxelinux.cfg/01-*
 
     - name: создание файлов конфигурации tftp по mac адресам
-      template: src=tftp.conf.j2 dest={{ tftp.path }}/pxelinux.cfg/01-{{ item.1 }}
+      template: src=tftp.conf.j2 dest={{ tftp.path }}/pxelinux.cfg/01-{{ item.1|replace(':','-') }}
                 owner=dnsmasq mode=0644
       with_subelements:
        - machines_by_mac

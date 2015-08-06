@@ -12,6 +12,6 @@ tftp-root={{ tftp.path }}
 dhcp-boot=pxelinux.0
 {% if dhcp.static_mode is defined and dhcp.static_mode %}
 {% for row in machines_by_mac if row.mac is defined and row.ip is defined %}
-dhcp-host={% for mac in row.mac %}{{ mac|replace('-',':') }},{% endfor %}{{ row.ip }}
+dhcp-host={{ row.mac|join(',') }},{{ row.ip }}
 {% endfor %}
 {% endif %}
