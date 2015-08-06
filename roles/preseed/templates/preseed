@@ -79,6 +79,7 @@ d-i     partman-lvm/vgcreate string {{ preseed.lvm.name | default('system') }}
 d-i     partman-auto-lvm/new_vg_name string {{ preseed.lvm.name | default('system') }}
 d-i     partman-auto-lvm/guided_size string 100%
 d-i     partman-lvm/device_remove_lvm boolean true
+d-i     partman-auto-lvm/no_boot boolean true
 {% endif %}
 {% if 'softraid' in preseed %}
 d-i     partman-md/device_remove_md boolean true
