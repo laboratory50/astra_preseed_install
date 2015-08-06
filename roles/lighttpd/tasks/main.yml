@@ -1,0 +1,19 @@
+#
+# © ООО «Лаборатория 50», 2014
+#
+---
+  - name: установка lighttpd
+    apt: pkg=lighttpd state=present
+
+  - name: включение модуля dir-listing
+    command: lighttpd-enable-mod dir-listing
+    register: result
+    failed_when: result.rc != 0 and result.rc != 2
+
+  - name: настройка lighttpd.conf
+    lineinfile: dest=/etc/lighttpd/lighttpd.conf
+                line='server.document-root        = "{{ repos.path }}"'
+                regexp='^server\.document-root' state=present
+
+  - name: перезапуск lighttpd
+    service: name=lighttpd state=restarted
