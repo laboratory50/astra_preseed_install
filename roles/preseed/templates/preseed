@@ -129,15 +129,17 @@ d-i     partman/confirm_nooverwrite boolean true
 # если ядро устанавливать не нужно.
 d-i base-installer/kernel/image string linux-image-generic
 
-d-i passwd/make-user boolean true
-
 {% if root %}
 # пароль суперпользователя, любой открытым текстом
+d-i passwd/root-login boolean true
 d-i passwd/root-password password {{ root.password }}
 d-i passwd/root-password-again password {{ root.password }}
+{% else %}
+d-i passwd/root-login boolean false
 {% endif %}
 
 {% if user %}
+d-i passwd/make-user boolean true
 # создать учётную запись обычного пользователя.
 d-i passwd/user-fullname string {{ user.name }}
 d-i passwd/username string {{ user.login }}
@@ -145,6 +147,8 @@ d-i passwd/username string {{ user.login }}
 # пароль обычного пользователя, или открытым текстом
 d-i passwd/user-password password {{ user.password }}
 d-i passwd/user-password-again password {{ user.password }}
+{% else %}
+d-i passwd/make-user boolean false
 {% endif %}
 
 console-setup console-setup/fontface select Terminus
