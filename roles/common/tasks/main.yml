@@ -7,22 +7,6 @@
       tags: [no_make_rep]
       
     - include: tftp.yml
-      vars:
-         tftp_path: '{{ http.path_to_tftp_files }}'
-      when: server_type == 'http'
-      
-    - include: tftp.yml
-      vars:
-         tftp_path: '{{ ftp.path_to_ftp_root }}/{{ link_to_tftp_files }}'
-      when: server_type == 'ftp'
-      tags: [no_make_rep, tftp_preseed]
-      
-    - include: apache2.yml
-      when: server_type == 'http'
-    
-    - include: vsftpd.yml
-      when: server_type == 'ftp'
-      tags: [no_make_rep]
       
 #    - include: copy_files.yml
 #      when: server_type == 'ftp'

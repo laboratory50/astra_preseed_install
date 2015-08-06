@@ -1,9 +1,7 @@
 #
-# © ООО «Лаборатория 50», 2014
+# © ООО «Лаборатория 50», 2014, 2015
 #
 ---
-# install&conf dnsmasq
-
     - name: установка dnsmasq
       apt: pkg=dnsmasq state=latest
 
@@ -19,3 +17,6 @@
       file: path=/var/lib/misc/dnsmasq.leases state=absent
       tags: [remove_dhcp_leases]
 
+    - name: перезапуск службы dnsmasq
+      service: name=dnsmasq state=restarted
+      tags: remove_dhcp_leases

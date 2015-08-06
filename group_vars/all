@@ -1,59 +1,56 @@
 # переменные для настройки сервера автоматической инсталляции ОС
 
-# Доступные опции 'http' or 'ftp'
-server_type: 'ftp'
-
 # Указываем имя необходимого шаблона (preseed file) для автоматической установки linux,
 # если нужен другой шаблон, то его можно
 # создать по аналогии c шаблонами расположенными в roles/common/templates
-default_preseed: 'preseed.softraid.cfg.j2'
+default_preseed: 'standard'
 
 # Имя цели используемое tftp
 os_name: astra
+
 # Имя домена
 default_domain: lab50
 
-# Пароли !! После установки рекомендуется сменить пароли !!
-password:
-   user: 'password'
-   root: 'password'
-   grub: 'password'
+# Параметры создаваемого пользователя
+user:
+   login: user
+   name: Administrator
+   password: password
 
-# путь к файлам tftp
-link_to_tftp_files: 'tftpboot'
+# Пароль для пользователя root. Удалите, если нет
+# надобности в создании root.
+root:
+   password: password
 
-# Параметры сети сервера
+# Пароль для GRUB 2
+grub:
+   password: password
+
+# Сетевой интерфейс на котором будет работать DHCP-сервер.
+net_iface: eth0
+
+# Параметры сети. Стандартные настройки позволяют
+# автоматически подхватывать данные с интерфейса.
 network:
    # IP-адрес сервера
-   addr: '{{ hostvars[inventory_hostname].ansible_eth0.ipv4.address }}'
+   addr: '{{ hostvars[inventory_hostname]["ansible_" + net_iface].ipv4.address }}'
    # Сетевая маска
-   mask: '{{ hostvars[inventory_hostname].ansible_eth0.ipv4.netmask }}'
+   mask: '{{ hostvars[inventory_hostname]["ansible_" + net_iface].ipv4.netmask }}'
    # IP-адрес сети
-   network: '{{ hostvars[inventory_hostname].ansible_eth0.ipv4.network }}'
-   # Сетевой интерфейс
-   name: '{{ hostvars[inventory_hostname].ansible_eth0.device }}'
+   network: '{{ hostvars[inventory_hostname]["ansible_" + net_iface].ipv4.network }}'
 
-# Полную путь к репозиторию пакетов
-#(!репозиторий создается самостоятельно, простейший случай просто путь к подмонтированному cd диску!) 
-# !переменные используются, только если установлен server_type в http!
-# в случае http репозитории ПК КВГ и devel репозиторий Astra Linux не разворачиваются!
-http:
-    path_to_packages_mirror: '/srv/se13'
-    link_to_packages_mirror: 'astra'
-    path_to_tftp_files: '/srv/tftp'
-    
-# Для пути к репозиторию ПК КВГ (для варианта когда используется ftp)
-# !переменные используются, только если установлен server_type в ftp!
-ftp:
-    path_to_ftp_root: '/home/ftp'
-    astra_rep_name: 'se14/os'
-    dev_astra_rep_name: 'se14/dev'
-    hac_rep_name:
-    src_with_astra_rep: '/media/cdrom'
-    src_with_dev_astra_rep: '/media/cdrom'
-    src_with_hac_rep: '/media/cdrom'
+# Каталог с файлами TFTP
+tftp:
+   path: /srv/tftp
 
-# Настройки dnsmasq
+# Каталог с файлами сервера HTTP или FTP
+repos:
+   # Абсолютный путь к начальному каталогу сервера
+   path: /srv/repos
+   # Относительный путь к репозиторию операционной системы
+   os: /se14/os
+
+# Настройки сервера DHCP (Dnsmasq)
 dhcp:
     # Включение/выключение статического режима dhcp сервера: false или true,
     # если установлено в true, то адреса выдаются только по тем mac-адресам, которык указаны в machines_by_mac
@@ -81,9 +78,11 @@ dhcp:
 # { mac: '00-1c-c0-f8-ff-6a', hostname: 'example', preseed: 'preseed.cfg.j2', ip: 10.10.10.50, mask: 255.255.255.0 }
 
 machines_by_mac:
-    - { mac: ['00-25-90-cb-03-2b', '00-25-90-cb-03-2a', '90-e2-ba-21-35-60', '90-e2-ba-21-35-61'], hostname: 'hacnode1', ip: 172.16.0.20 }
-    - { mac: ['00-25-90-c9-a3-fc', '00-25-90-c9-a3-fd', '90-e2-ba-29-cc-76', '90-e2-ba-29-cc-77'], hostname: 'hacnode2', ip: 172.16.0.21 }
-    - { mac: ['00-25-90-c7-72-b4', '00-25-90-c7-72-b5', '90-e2-ba-23-5f-dc', '90-e2-ba-23-5f-dd'], hostname: 'hacnode3', ip: 172.16.0.22 }
-    - { mac: ['00-1c-c0-f8-ff-6a'], hostname: 'crimea', preseed: 'preseed.cfg.j2', ip: 172.16.0.100 }
-    - { mac: ['00-1c-c0-f8-f8-fe'], hostname: 'adm-station', preseed: 'preseed.cfg.j2', ip: 172.16.0.211 }
+  - { mac: ['60-eb-69-e0-36-e1'], hostname: test, ip: 10.2.0.240 }
+#machines_by_mac:
+#    - { mac: ['00-25-90-cb-03-2b', '00-25-90-cb-03-2a', '90-e2-ba-21-35-60', '90-e2-ba-21-35-61'], hostname: 'hacnode1', ip: 172.16.0.20 }
+#    - { mac: ['00-25-90-c9-a3-fc', '00-25-90-c9-a3-fd', '90-e2-ba-29-cc-76', '90-e2-ba-29-cc-77'], hostname: 'hacnode2', ip: 172.16.0.21 }
+#    - { mac: ['00-25-90-c7-72-b4', '00-25-90-c7-72-b5', '90-e2-ba-23-5f-dc', '90-e2-ba-23-5f-dd'], hostname: 'hacnode3', ip: 172.16.0.22 }
+#    - { mac: ['00-1c-c0-f8-ff-6a'], hostname: 'crimea', preseed: 'preseed.cfg.j2', ip: 172.16.0.100 }
+#    - { mac: ['00-1c-c0-f8-f8-fe'], hostname: 'adm-station', preseed: 'preseed.cfg.j2', ip: 172.16.0.211 }
 

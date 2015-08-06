@@ -1,32 +1,21 @@
 #
-# © ООО «Лаборатория 50», 2014
+# © ООО «Лаборатория 50», 2014, 2015
 #
 ---
-# The main playbook to set up installation server
-
 - hosts: inst_servers
   user: root
-#  connection: local
-#  sudo: true
+  connection: local
+  sudo: true
+#  vars:
+#    net_iface: eth1
 
   pre_tasks:
    - name: обновление списка пакетов
      apt: update_cache=yes
      
-   - name: проверям установленные server_type  
-     fail: msg="Invalid value of 'server_type' variable"
-     when: server_type != 'http' and server_type != 'ftp'
-
   roles:
-   - common
-
-  post_tasks:
-   - name: перезапуск службы apache2
-     service: name=apache2 state=restarted
-     tags: remove_dhcp_leases
-     when: server_type == 'http'
-
-   - name: перезапуск службы dnsmasq
-     service: name=dnsmasq state=restarted
-     tags: remove_dhcp_leases
-     
+    # Используемый демон для раздачи репозитория и preseed-файлов
+    - lighttpd
+    # Список подготавливаемых шаблонов, как минимум нужен standard
+    - { role: preseed, preseed: "{{ standard }}" }
+    - common

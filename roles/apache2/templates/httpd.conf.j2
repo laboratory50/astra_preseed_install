@@ -1,13 +1,13 @@
-<Directory {{ http.path_to_packages_mirror }}>
+<Directory {{ repos.path }}>
 Options Indexes FollowSymLinks
 Allowoverride None
 </Directory>
 
-<Directory {{ http.path_to_tftp_files }}>
+<Directory {{ tftp.path }}>
 Options Indexes FollowSymLinks
 Allowoverride None
 </Directory>
 		
-Alias /{{ http.link_to_packages_mirror }} "{{ http.path_to_packages_mirror }}"
-Alias /{{ link_to_tftp_files }} "{{ http.path_to_tftp_files }}"
+Alias /{{ server_repos }} {{ repos.path }}
+Alias /tftpboot {{ tftp.path }}
 
