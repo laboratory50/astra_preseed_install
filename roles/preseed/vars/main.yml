@@ -48,3 +48,6 @@ standard:
 
   # Спец. возможности Астры: kiosk, ald-server, ald-client ([])
   astra: []
+
+  # Что делать после уставновки: reboot, poweroff, halt (reboot)
+  finish: reboot

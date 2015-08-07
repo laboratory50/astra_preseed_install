@@ -1,4 +1,4 @@
-# Автоматическая установка ОС ОС «Astra Linux Special Edition»
+# Автоматическая установка ОС «Astra Linux Special Edition»
 
 Этот репозиторий содержит сценарии Ansible для создания сервера
 автоматической установки по сети ОС Astra Linux Special Edition

@@ -218,8 +218,11 @@ d-i grub-installer/with_other_os boolean true
 d-i grub-installer/password password {{ grub.password }}
 d-i grub-installer/password-again password {{ grub.password }}
 
-# остановить систему после завершения установки, а
-# не перегружаться в установленную систему.
-d-i finish-install/reboot_in_progress note
+{% if preseed['finish']|default('reboot') == 'halt' %}
 d-i debian-installer/exit/halt boolean true
+{% elif preseed['finish']|default('reboot') == 'poweroff' %}
+d-i debian-installer/exit/poweroff boolean true
+{% else %}
+d-i finish-install/reboot_in_progress note
+{% endif %}
 
