@@ -106,20 +106,20 @@ d-i     partman-auto/expert_recipe string       \
              1 0 1 free                         \
                 $iflabel{ gpt }                 \
                 method{ biosgrub }              \
-             .                                  \
 {% if preseed.partman == 'raid' %}
 {% for part in preseed.softraid.partitions %}
+             .                                  \
              {{ partsize(part.size, loop.index) }} raid             \
                 $lvmignore{ }                   \
                 $primary{ } method{ raid }      \
-             .                                  \
 {% endfor %}
+             .                                  \
              1000 {{ preseed.softraid.partitions|length + 1 }} 100000000 raid              \
                 $lvmignore{ }                   \
                 $primary{ } method{ raid }      \
-             .                                  \
 {% endif %}
 {% for part in preseed.partitions %}
+             .                                  \
              {{ partsize(part.size, loop.index + 10) }} {{ part.fs }}             \
                 $defaultignore{ }               \
 {% if 'lvm' in preseed %}
