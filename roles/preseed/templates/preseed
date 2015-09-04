@@ -110,11 +110,15 @@ d-i     partman-auto/expert_recipe string       \
 {% if part.fs == 'swap' %}
                 method{ swap }                  \
                 format{ }                       \
+{% elif 'keep' in part %}
+		method{ keep }			\
 {% else %}
                 method{ format }                \
                 format{ }                       \
-                use_filesystem{ }               \
                 filesystem{ {{ part.fs }} }     \
+{% endif %}
+{% if 'mount' in part %}
+                use_filesystem{ }               \
                 mountpoint{ {{ part.mount }} }       \
 {% endif %}
 {% endfor %}
@@ -124,6 +128,7 @@ d-i     partman-partitioning/confirm_write_new_label boolean true
 d-i     partman/choose_partition select Finish partitioning and write changes to disk
 d-i     partman/confirm boolean true
 d-i     partman/confirm_nooverwrite boolean true
+disk-detect	disk-detect/activate_dmraid	boolean	true
 
 # устанавливаемый пакет (мета) с образом ядра; можно указать "none",
 # если ядро устанавливать не нужно.
