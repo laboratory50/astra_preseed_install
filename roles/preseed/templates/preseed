@@ -5,6 +5,9 @@
   {{ size.split('/')[0] | int * 1024 }} {{ priority }} {{ size.split('/')[1] | int * 1024 }}
 {%- endif -%}
 {%- endmacro %}
+{% macro raiddevs(devices, index) -%}
+{{ devices | join(index + '#') }}{{ index }}
+{%- endmacro %}
 
 # настройка языка и страны согласно локали
 {% if 'locale' in preseed %}
@@ -68,7 +71,9 @@ d-i time/zone string Europe/Moscow
 d-i clock-setup/ntp boolean false
 
 # разбиение диска создание разделов
-{% if 'disk' in preseed and preseed.disk %}
+{% if preseed.partman == 'raid' %}
+d-i     partman-auto/disk string {{ preseed.softraid.devices | join(' ') }}
+{% elif 'disk' in preseed and preseed.disk %}
 d-i     partman-auto/disk string {{ preseed.disk }}
 {% endif %}
 d-i     partman-auto/method string {{ preseed.partman }}
@@ -81,16 +86,18 @@ d-i     partman-auto-lvm/guided_size string 100%
 d-i     partman-lvm/device_remove_lvm boolean true
 d-i     partman-auto-lvm/no_boot boolean true
 {% endif %}
-{% if 'softraid' in preseed %}
+{% if preseed.partman == 'raid' %}
 d-i     partman-md/device_remove_md boolean true
 d-i     partman-md/confirm_nochanges boolean true
 d-i     partman-md/confirm boolean true
 d-i     partman-md/confirm_nooverwrite  boolean true
 d-i     mdadm/boot_degraded boolean true
 d-i     partman-auto-raid/recipe string          \
-        1 2 0 ext4 /boot /dev/sda2#/dev/sdb2     \
-        .                                        \
-        1 2 0 lvm - /dev/sda3#/dev/sdb3          \
+{% for part in preseed.softraid.partitions %}
+        {{ preseed.softraid.level }} {{ preseed.softraid.devices|length }} 0 {{ part.fs }} {{ part.mount }} {{ raiddevs(preseed.softraid.devices, loop.index|string) }}            \
+        .
+{% endfor %}
+        {{ preseed.softraid.level }} {{ preseed.softraid.devices|length }} 0 - lvm {{ raiddevs(preseed.softraid.devices, (preseed.softraid.partitions|length + 1)|string) }}            \
         .
 {% endif %}
 d-i     partman-auto/choose_recipe select lab50
@@ -99,9 +106,21 @@ d-i     partman-auto/expert_recipe string       \
              1 0 1 free                         \
                 $iflabel{ gpt }                 \
                 method{ biosgrub }              \
-{% for part in preseed.partitions %}
              .                                  \
-             {{ partsize(part.size, loop.index) }} {{ part.fs }}             \
+{% if preseed.partman == 'raid' %}
+{% for part in preseed.softraid.partitions %}
+             {{ partsize(part.size, loop.index) }} raid             \
+                $lvmignore{ }                   \
+                $primary{ } method{ raid }      \
+             .                                  \
+{% endfor %}
+             1000 {{ preseed.softraid.partitions|length + 1 }} 100000000 raid              \
+                $lvmignore{ }                   \
+                $primary{ } method{ raid }      \
+             .                                  \
+{% endif %}
+{% for part in preseed.partitions %}
+             {{ partsize(part.size, loop.index + 10) }} {{ part.fs }}             \
                 $defaultignore{ }               \
 {% if 'lvm' in preseed %}
                 $lvmok{ }                       \

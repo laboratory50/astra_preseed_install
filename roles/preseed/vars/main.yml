@@ -12,7 +12,7 @@ standard:
     name: system
 
   # настройки программного RAID (если нужен)
-  #softraid:
+  softraid:
 
   partitions:
     - name: root
@@ -50,4 +50,54 @@ standard:
   astra: []
 
   # Что делать после уставновки: reboot, poweroff, halt (reboot)
+  finish: reboot
+
+mdraid:
+  name: mdraid
+
+  partman: raid
+
+  disk:
+
+  lvm:
+    name: system
+
+  # настройки программного RAID (если нужен)
+  softraid:
+    # Устройства в RAID
+    devices: [ /dev/sda, /dev/sdb ]
+    # Тип RAID: 0 - stripe, 1 - mirror, …
+    level: 1
+    # Разделы аналогично partitions
+    partitions:
+      - name: boot
+        mount: /boot
+        size: 1/1
+        fs: ext4
+
+  partitions:
+    - name: root
+      mount: /
+      size: 30/50
+      fs: ext4
+    - name: swap
+      size: 200%
+      fs: swap
+    - name: var
+      mount: /var
+      size: 100/200
+      fs: ext4
+
+  locale: ru_RU
+
+  keyboard_toggle: Ctrl+Shift
+
+  timezone: Europe/Moscow
+
+  tasksel: [Base]
+
+  extra_pkgs: [openssh-server, ethtool]
+
+  astra: []
+
   finish: reboot
