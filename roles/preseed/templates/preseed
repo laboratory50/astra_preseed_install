@@ -92,12 +92,12 @@ d-i     partman-md/confirm_nochanges boolean true
 d-i     partman-md/confirm boolean true
 d-i     partman-md/confirm_nooverwrite  boolean true
 d-i     mdadm/boot_degraded boolean true
-d-i     partman-auto-raid/recipe string          \
+d-i     partman-auto-raid/recipe string         \
 {% for part in preseed.softraid.partitions %}
         {{ preseed.softraid.level }} {{ preseed.softraid.devices|length }} 0 {{ part.fs }} {{ part.mount }} {{ raiddevs(preseed.softraid.devices, loop.index|string) }}            \
-        .
+        .                                       \
 {% endfor %}
-        {{ preseed.softraid.level }} {{ preseed.softraid.devices|length }} 0 - lvm {{ raiddevs(preseed.softraid.devices, (preseed.softraid.partitions|length + 1)|string) }}            \
+        {{ preseed.softraid.level }} {{ preseed.softraid.devices|length }} 0 lvm - {{ raiddevs(preseed.softraid.devices, (preseed.softraid.partitions|length + 1)|string) }}            \
         .
 {% endif %}
 d-i     partman-auto/choose_recipe select lab50
