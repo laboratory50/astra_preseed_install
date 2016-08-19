@@ -9,7 +9,15 @@ dhcp-option=3,{{ network.addr }}
 enable-tftp
 tftp-root={{ tftp.path }}
 
-dhcp-boot=pxelinux.0
+dhcp-match=set:efi-x86_64,option:client-arch,7
+dhcp-match=set:efi-x86_64,option:client-arch,9
+dhcp-match=set:efi-x86,option:client-arch,6
+dhcp-match=set:bios,option:client-arch,0
+
+dhcp-boot=tag:efi-x86_64,"bootx64.efi"
+dhcp-boot=tag:efi-x86,"bootia32.efi"
+dhcp-boot=tag:bios,"pxelinux.0"
+
 {% if dhcp.static_mode is defined and dhcp.static_mode %}
 {% for row in machines_by_mac if row.mac is defined and row.ip is defined %}
 dhcp-host={{ row.mac|join(',') }},{{ row.ip }}
