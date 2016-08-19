@@ -53,7 +53,7 @@ d-i netcfg/wireless_wep string
 # настройка зеркала с пакетами
 d-i mirror/protocol string {{ server_type }}
 d-i mirror/country string manual
-d-i mirror/{{ server_type }}/hostname string {{ network.addr }}
+d-i mirror/{{ server_type }}/hostname string {{ repos.host }}
 d-i mirror/{{ server_type }}/directory string {{ repos.os }}
 d-i mirror/{{ server_type }}/proxy string
 
