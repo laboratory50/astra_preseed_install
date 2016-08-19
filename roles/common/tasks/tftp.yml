@@ -5,9 +5,9 @@
     - name: создание каталогов для tftp
       file: path={{ tftp.path }}/pxelinux.cfg state=directory owner=dnsmasq mode=0755
 
-    - copy: src=initrd.gz dest={{ tftp.path }} owner=dnsmasq mode=0644
-    - copy: src=linux dest={{ tftp.path }} owner=dnsmasq mode=0644
-    - copy: src=pxelinux.0 dest={{ tftp.path }} owner=dnsmasq mode=0644
+    - copy: src=se15/initrd.gz dest={{ tftp.path }} owner=dnsmasq mode=0644
+    - copy: src=se15/linux dest={{ tftp.path }} owner=dnsmasq mode=0644
+    - copy: src=se15/pxelinux.0 dest={{ tftp.path }} owner=dnsmasq mode=0644
 
     - name: создание файла c конфигурацией tftp
       template: src=tftp.conf.j2 dest={{ tftp.path }}/pxelinux.cfg/default
