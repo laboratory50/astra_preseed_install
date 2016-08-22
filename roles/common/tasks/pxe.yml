@@ -1,5 +1,5 @@
 #
-# © ООО «Лаборатория 50», 2014, 2015
+# © ООО «Лаборатория 50», 2014, 2015, 2016
 #
 ---
     - name: создание каталогов для tftp
@@ -29,11 +29,13 @@
        - mac
       when: machines_by_mac is defined
 
-#    - name: создание preseed файлов по mac адресам
-#      template: src={{ item.preseed|default('{{default_preseed}}') }}
-#                dest={{ tftp_path }}/{{ item.preseed|default('{{default_preseed_filename}}')|replace('.j2','') }}
-#                owner=dnsmasq
-#                mode=0644
-#      with_items: machines_by_mac
-#      when: machines_by_mac is defined
+    - name: установка пакета syslinux-efi
+      apt: pkg=syslinux-efi state=present
+      when: uefi
 
+    - name: копирование файлов загрузчиков
+      copy: src={{ item }} dest={{ tftp.path }}
+      with_items:
+       - /usr/lib/SYSLINUX.EFI/efi64/syslinux.efi
+       - /usr/lib/syslinux/modules/efi64/ldlinux.e64
+      when: uefi

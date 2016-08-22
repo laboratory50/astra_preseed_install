@@ -6,13 +6,11 @@
   user: root
   connection: local
   sudo: true
-#  vars:
-#    net_iface: eth1
 
   pre_tasks:
    - name: обновление списка пакетов
      apt: update_cache=yes
-     
+
   roles:
     # Используемый демон для раздачи репозитория и preseed-файлов
     - lighttpd

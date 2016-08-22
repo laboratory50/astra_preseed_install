@@ -1,5 +1,5 @@
 #
-# © ООО «Лаборатория 50», 2015
+# © ООО «Лаборатория 50», 2015, 16
 #
 ---
   - name: установка rsync
@@ -16,3 +16,11 @@
   - name: заливка репозитория (pool)
     synchronize: src={{ src }}/pool dest={{ dst }}
                  links=yes mode=pull recursive=yes
+
+  - name: копирование ядра и начального образа
+    synchronize: src={{ item }}/netinst dest={{ tftp }}
+                 mode=pull
+    with_items:
+      - linux
+      - initrd.gz
+      - pxelinux.0

@@ -14,8 +14,7 @@ dhcp-match=set:efi-x86_64,option:client-arch,9
 dhcp-match=set:efi-x86,option:client-arch,6
 dhcp-match=set:bios,option:client-arch,0
 
-dhcp-boot=tag:efi-x86_64,"bootx64.efi"
-dhcp-boot=tag:efi-x86,"bootia32.efi"
+dhcp-boot=tag:efi-x86_64,"syslinux.efi"
 dhcp-boot=tag:bios,"pxelinux.0"
 
 {% if dhcp.static_mode is defined and dhcp.static_mode %}
