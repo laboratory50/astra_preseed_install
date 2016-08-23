@@ -58,8 +58,9 @@ standard:
   # Спец. возможности Астры: kiosk, ald-server, ald-client ([])
   astra: []
 
-  # Спец. настройки Астры
-  astra_setup:
+  # Спец. настройки Астры. При необходимости раскоментируйте пункты
+  # и удалите «[]»
+  astra_setup: []
 #   - 'Disable automatic network configuration'  # Отключить автоматическую настройку сети
 #   - 'Enable ELF signature check'           # Включить режим замкнутой программной среды
 #   - 'Disable non-execution bit setup'      # Запретить установку исполняемого бита
