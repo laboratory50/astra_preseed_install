@@ -58,6 +58,17 @@ standard:
   # Спец. возможности Астры: kiosk, ald-server, ald-client ([])
   astra: []
 
+  # Спец. настройки Астры
+  astra_setup:
+#   - 'Disable automatic network configuration'  # Отключить автоматическую настройку сети
+#   - 'Enable ELF signature check'           # Включить режим замкнутой программной среды
+#   - 'Disable non-execution bit setup'      # Запретить установку исполняемого бита
+#   - 'Use kernel with PaX'                  # Использовать по-умолчанию ядро PaX
+#   - 'Disable bootloader menu show up'      # Запретить вывод меню загрузчика
+#   - 'Enable swap cleanup'                  # Включить очистку разделов страничного обмена
+#   - 'Enable freeing regions cleanup on EXT-partitions'   # Включить очистку освобождаемых областей для EXT-разделов
+#   - 'Install 32-bit bootloader'            # Установить 32-х битный загрузчик
+
   # Что делать после уставновки: reboot, poweroff, halt (reboot)
   finish: reboot
 
@@ -108,5 +119,7 @@ mdraid:
   extra_pkgs: [openssh-server, ethtool]
 
   astra: []
+
+  astra_setup: []
 
   finish: reboot

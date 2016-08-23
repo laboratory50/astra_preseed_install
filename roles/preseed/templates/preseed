@@ -234,6 +234,13 @@ tasksel tasksel/astra-feat-setup multiselect
 # Ответ на вопрос про тип экрана: рабочий стол
 d-i desktop-tablet-mode-switch/tablet-mode boolean false
 
+d-i astra-additional-setup/additional-settings multiselect {{ preseed.astra_setup | join(', ') }}
+{% if 'Disable automatic network configuration' in preseed.astra_setup %}
+d-i astra-additional-setup/automatic-network-disable multiselect Disable automatic network configuration
+{% else %}
+d-i astra-additional-setup/automatic-network-disable multiselect
+{% endif %}
+
 # некоторые версии программы установки могут отсылать отчёт
 # об установленных пакетах. По умолчанию данная возможность
 # выключена, но отправка отчёта помогает проекту
