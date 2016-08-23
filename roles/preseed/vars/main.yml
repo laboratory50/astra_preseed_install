@@ -2,7 +2,7 @@ standard:
   name: "{{ default_preseed }}"
 
   # partman-auto/method (raid, lvm, regular)
-  partman: lvm
+  partman: regular
 
   # partman-auto/disk (/dev/sdX, /dev/vdX или пустое значение)
   disk:
@@ -26,6 +26,15 @@ standard:
       mount: /var
       size: 100/200
       fs: ext4
+  #  - name: storage
+  #    size: 100/200
+  #    device: /dev/sdb
+  #    fs: lvm
+  #  - name: home
+  #    size: 50/100
+  #    fs: ext4
+  #    mount: /home
+  #    in_vg: storage
 
   # Локаль в формате aa_BB (ru_RU)
   locale: ru_RU

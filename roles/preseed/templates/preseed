@@ -121,6 +121,13 @@ d-i     partman-auto/expert_recipe string       \
 {% for part in preseed.partitions %}
              .                                  \
              {{ partsize(part.size, loop.index + 10) }} {{ part.fs }}             \
+{% if part.fs == 'lvm' %}
+                method{ lvm }                   \
+                vg_name{ {{ part.name }} }      \
+{% if 'device' in part %}
+                device{ {{ part.device }} }     \
+{% endif %}
+{% else %}
 {% if 'lvm' in preseed %}
                 $lvmok{ }                       \
                 lv_name{ lv_{{ part.name }} }   \
@@ -135,9 +142,13 @@ d-i     partman-auto/expert_recipe string       \
                 format{ }                       \
                 filesystem{ {{ part.fs }} }     \
 {% endif %}
+{% if 'in_vg' in part %}
+                in_vg{ {{ part.in_vg }} }       \
+{% endif %}
 {% if 'mount' in part %}
                 use_filesystem{ }               \
                 mountpoint{ {{ part.mount }} }       \
+{% endif %}
 {% endif %}
 {% endfor %}
              .
