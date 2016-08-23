@@ -121,7 +121,6 @@ d-i     partman-auto/expert_recipe string       \
 {% for part in preseed.partitions %}
              .                                  \
              {{ partsize(part.size, loop.index + 10) }} {{ part.fs }}             \
-                $defaultignore{ }               \
 {% if 'lvm' in preseed %}
                 $lvmok{ }                       \
                 lv_name{ lv_{{ part.name }} }   \
